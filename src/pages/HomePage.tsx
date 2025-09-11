@@ -1,24 +1,22 @@
-import HomePageBody from "../components/HomePageBody";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Layout from "../Layout";
 
 function HomePage() {
   return (
-    <div className="w-full flex flex-col">
-      {/* Navbar fixée en haut */}
-      <div className="fixed top-0 w-full z-50">
-        <Navbar />
+    <Layout>
+      <div className="space-y-7">
+        <div className="banner py-24">
+          <div className="container space-y-3">
+            <h1 className=" text-2xl max-w-[260px] ">
+              La haute pâtisserie française, personalisée pour vos plus belles
+              occasions
+            </h1>
+            <button className="bg-amber-100 text-black px-3 py-1 rounded-3xl cursor-pointer border-0 outline-none">
+              Découvrez-nous
+            </button>
+          </div>
+        </div>
       </div>
-
-      {/* Contenu de la page centré verticalement et après le navbar */}
-      <div className="h-full w-full flex flex-col">
-        {/* Ensure full height */}
-        <HomePageBody />
-      </div>
-
-  {/* Footer en bas */}
-  <Footer />
-    </div>
+    </Layout>
   );
 }
 
