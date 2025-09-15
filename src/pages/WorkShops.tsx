@@ -9,6 +9,7 @@ function WorkShops() {
       id: 1,
       title: "Masterclass Saint-Honoré",
       date: "Samedi 12 Juillet",
+      price: 420,
       places: 3,
       image: "/src/assets/images/Workshop-image-1.jpg",
       category: "Pâtisserie",
@@ -17,6 +18,7 @@ function WorkShops() {
       id: 2,
       title: "Masterclass Éclair",
       date: "Dimanche 13 Juillet",
+      price: 80,
       places: 2,
       image: "/src/assets/images/Workshop-image-2.jpg",
       category: "Pâtisserie",
@@ -25,6 +27,7 @@ function WorkShops() {
       id: 3,
       title: "Masterclass Macaron",
       date: "Lundi 14 Juillet",
+      price: 80,
       places: 4,
       image: "/src/assets/images/Workshop-image-3.jpg",
       category: "Pâtisserie",
@@ -33,6 +36,7 @@ function WorkShops() {
       id: 4,
       title: "Masterclass Macaron",
       date: "Lundi 14 Juillet",
+      price: 80,
       places: 4,
       image: "/src/assets/images/Workshop-image-4.jpg",
       category: "Pâtisserie",
@@ -41,6 +45,7 @@ function WorkShops() {
       id: 5,
       title: "Masterclass Macaron",
       date: "Lundi 14 Juillet",
+      price: 80,
       places: 4,
       image: "/src/assets/images/Workshop-image-5.jpg",
       category: "Pâtisserie",
@@ -49,6 +54,7 @@ function WorkShops() {
       id: 6,
       title: "Masterclass Tarte",
       date: "Mardi 15 Juillet",
+      price: 80,
       places: 1,
       image: "/src/assets/images/Workshop-image-6.jpg",
       category: "Cake design",
@@ -57,6 +63,7 @@ function WorkShops() {
       id: 7,
       title: "Masterclass Tarte",
       date: "Mardi 15 Juillet",
+      price: 80,
       places: 1,
       image: "/src/assets/images/Workshop-image-7.jpg",
       category: "Cake design",
@@ -142,9 +149,14 @@ function WorkShops() {
                           {workshop.title}
                         </h5>
                       </a>
-                      <p className="font-normal text-[#481713] dark:text-gray-400 mb-3">
-                        {workshop.date}
-                      </p>
+                      <div className="flex flex-col md:flex-row justify-between items-center">
+                        <p className="font-normal text-[#481713] dark:text-gray-400">
+                          {workshop.date}
+                        </p>
+                        <p className="font-normal text-[#481713] dark:text-gray-400 mb-4">
+                          {workshop.price} €
+                        </p>
+                      </div>
                       <div className="flex flex-col md:flex-row justify-between items-center">
                         <p className="font-normal text-[#481713] dark:text-gray-400">
                           {workshop.places} Places restantes
