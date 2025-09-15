@@ -1,9 +1,12 @@
 import MsIcon from "../assets/icons/MsIcon";
 import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+
 import { useState } from "react";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -34,7 +37,9 @@ function Navbar() {
           {/* Logo / Icon centered on mobile, left-aligned on md+ */}
           <div className="flex flex-shrink-0 items-center w-full justify-center md:w-auto md:justify-start">
             <div className="flex shrink-0 items-center">
-              <MsIcon className="h-20 w-full cursor-pointer" />
+              <Link to="/">
+                <MsIcon className="h-20 w-full cursor-pointer" />
+              </Link>
             </div>
           </div>
 
@@ -59,12 +64,12 @@ function Navbar() {
               >
                 Traiteur
               </a>
-              <a
-                href="#"
-                className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+              <Link
+                to="/workshops"
+                className={`rounded-md px-3 py-2 text-sm font-medium ${location.pathname === "/workshops" ? "bg-[#b06c74]/10 text-[#b06c74]" : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"}`}
               >
                 Ateliers
-              </a>
+              </Link>
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
@@ -118,12 +123,12 @@ function Navbar() {
           >
             Traiteur
           </a>
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+          <Link
+            to="/workshops"
+            className={`block rounded-md px-3 py-2 text-base font-medium ${location.pathname === "/workshops" ? "bg-[#b06c74]/10 text-[#b06c74]" : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"}`}
           >
             Ateliers
-          </a>
+          </Link>
           <a
             href="#"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
