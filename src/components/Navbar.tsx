@@ -1,15 +1,30 @@
 import MsIcon from "../assets/icons/MsIcon";
 import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-
 import { useState } from "react";
+import AuthPopup from "./modals/AuthPopup";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const [isAuthOpen, setIsAuthOpen] = useState(false); // State for popup visibility
+  const [, setAuthType] = useState<"signin" | "signup">("signin"); // State for auth type
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const openAuth = (type: "signin" | "signup") => {
+    setAuthType(type);
+    setIsAuthOpen(true);
+  };
+
+  const closeAuth = () => {
+    setIsAuthOpen(false);
+  };
+
+  const switchAuth = (type: "signin" | "signup") => {
+    setAuthType(type);
   };
 
   return (
@@ -66,7 +81,11 @@ function Navbar() {
               </a>
               <Link
                 to="/workshops"
-                className={`rounded-md px-3 py-2 text-sm font-medium ${location.pathname === "/workshops" ? "bg-[#b06c74]/10 text-[#b06c74]" : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"}`}
+                className={`rounded-md px-3 py-2 text-sm font-medium ${
+                  location.pathname === "/workshops"
+                    ? "bg-[#b06c74]/10 text-[#b06c74]"
+                    : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+                }`}
               >
                 Ateliers
               </Link>
@@ -83,6 +102,7 @@ function Navbar() {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 gap-3">
             <button
               type="button"
+              onClick={() => openAuth("signin")} // Trigger popup on click
               className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
             >
               <span className="sr-only">View profile</span>
@@ -125,7 +145,11 @@ function Navbar() {
           </a>
           <Link
             to="/workshops"
-            className={`block rounded-md px-3 py-2 text-base font-medium ${location.pathname === "/workshops" ? "bg-[#b06c74]/10 text-[#b06c74]" : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"}`}
+            className={`block rounded-md px-3 py-2 text-base font-medium ${
+              location.pathname === "/workshops"
+                ? "bg-[#b06c74]/10 text-[#b06c74]"
+                : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+            }`}
           >
             Ateliers
           </Link>
@@ -137,6 +161,13 @@ function Navbar() {
           </a>
         </div>
       </div>
+
+      {/* Auth Popup */}
+      <AuthPopup
+        isOpen={isAuthOpen}
+        onClose={closeAuth}
+        onSwitch={switchAuth}
+      />
     </nav>
   );
 }

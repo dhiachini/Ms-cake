@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage";
 import WorkShops from "./pages/WorkShops";
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import WorkshopDetails from "./pages/WorkshopDetails";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/workshops" element={<WorkShops />} />
+          <Route path="/workshop/:id" element={<WorkshopDetails />} />
           {/* Example admin route: */}
           <Route
             path="/admin"

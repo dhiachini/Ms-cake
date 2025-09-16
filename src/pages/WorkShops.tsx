@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import Pagination from "../components/Pagination";
 
 function WorkShops() {
@@ -73,6 +74,7 @@ function WorkShops() {
   const [selectedCategory, setSelectedCategory] = useState("Pâtisserie");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const navigate = useNavigate(); // Call useNavigate at the top level
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -89,6 +91,8 @@ function WorkShops() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to top on component mount
+    window.scrollTo(300, 300);
   };
 
   return (
@@ -161,7 +165,10 @@ function WorkShops() {
                         <p className="font-normal text-[#481713] dark:text-gray-400">
                           {workshop.places} Places restantes
                         </p>
-                        <button className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none">
+                        <button
+                          onClick={() => navigate(`/workshop/${workshop.id}`)} // Use navigate function
+                          className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none"
+                        >
                           Reserver ma place
                         </button>
                       </div>
