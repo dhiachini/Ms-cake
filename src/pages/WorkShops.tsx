@@ -1,7 +1,7 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 
 function WorkShops() {

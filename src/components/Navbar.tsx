@@ -61,12 +61,17 @@ function Navbar() {
           {/* Menu centered (hidden on mobile, visible on md+) */}
           <div className="hidden md:flex justify-center md:items-center">
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+              <Link
+                to="/pastryweekend"
+                className={`rounded-md px-3 py-2 text-sm font-medium ${
+                  location.pathname === "/pastryweekend"
+                    ? "bg-[#b06c74]/10 text-[#b06c74]"
+                    : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+                }`}
               >
                 Patisseries
-              </a>
+              </Link>
+
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
