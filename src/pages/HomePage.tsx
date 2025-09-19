@@ -102,12 +102,6 @@ function HomePage() {
             {/* Carousel for mobile */}
             <div className="md:hidden">
               <div className="relative w-full h-56 overflow-hidden">
-                <button
-                  className="absolute left-15 top-1/2 transform -translate-y-1/2 bg-[#faf4e6] hover:bg-[#b06c74] hover:text-[#faf4e6] text-black px-3 py-1 rounded-full w-10 h-10 z-20"
-                  onClick={prevSlide}
-                >
-                  ←
-                </button>
                 <div
                   className="flex transition-transform duration-300 ease-in-out"
                   style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -128,12 +122,6 @@ function HomePage() {
                     </div>
                   ))}
                 </div>
-                <button
-                  className="absolute right-15 top-1/2 transform -translate-y-1/2 bg-[#faf4e6] hover:bg-[#b06c74] hover:text-[#faf4e6] text-black px-3 py-1 rounded-full w-10 h-10 z-20"
-                  onClick={nextSlide}
-                >
-                  →
-                </button>
               </div>
             </div>
           </div>
