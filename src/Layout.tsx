@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img
                   src="/src/assets/images/article-weekend-1.png"
                   alt="Photo 1"
-                  className="object-cover w-full h-90 mb-4"
+                  className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
               </Card>
             </div>
@@ -41,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img
                   src="/src/assets/images/article-weekend-2.png"
                   alt="Photo 2"
-                  className="object-cover w-full h-90 mb-4"
+                  className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
               </Card>
             </div>
@@ -50,16 +50,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img
                   src="/src/assets/images/article-weekend-3.png"
                   alt="Photo 3"
-                  className="object-cover w-full h-90 mb-4"
+                  className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
               </Card>
             </div>
           </div>
           {/* Nouveau div avec bg #fae5e4 */}
-          <div className="w-full flex justify-center">
-            <div className="flex w-[57rem] h-40 bg-[#fae5e4] flex-row justify-center items-center gap-10 p-5">
-              <EbookIcon className="w-40 h-40" />
-              <span className="text-4xl text-[#342520]">
+          <div className="w-full flex justify-center px-4">
+            <div className="flex w-full max-w-5xl h-auto bg-[#fae5e4] flex-col sm:flex-row justify-center items-center gap-6 sm:gap-10 p-6 rounded-xl">
+              <EbookIcon className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40" />
+              <span className="text-2xl sm:text-3xl md:text-4xl text-[#342520] text-center sm:text-left">
                 E-book Design Cake pour débutants
               </span>
             </div>

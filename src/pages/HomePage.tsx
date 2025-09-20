@@ -74,22 +74,22 @@ function HomePage() {
         <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[100%] w-full flex justify-center z-10">
           <div className="relative w-full md:w-auto">
             {/* Carousel for mobile, row for md+ */}
-            <div className="md:flex md:flex-row gap-8 hidden ">
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center">
+            <div className="md:flex md:flex-row md:gap-[3rem] hidden rounded-xl">
+              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
                 {boxes[0].icon}
                 <span className="text-3xl text-[#1d110f] text-center mb-3">
                   {boxes[0].title} <br />
                 </span>
                 <span>{boxes[0].subtitle}</span>
               </div>
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center">
+              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
                 {boxes[1].icon}
                 <span className="text-3xl text-[#1d110f] text-center mb-3">
                   {boxes[1].title} <br />
                 </span>
                 <span>{boxes[1].subtitle}</span>
               </div>
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center">
+              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
                 {boxes[2].icon}
                 <span className="text-3xl text-[#1d110f] text-center">
                   {boxes[2].title} <br />
