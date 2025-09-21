@@ -1,4 +1,4 @@
-import MsIcon from "../assets/icons/MsIcon";
+import MsIcon from "../assets/icons/MsIconBlack";
 
 function Footer() {
   return (

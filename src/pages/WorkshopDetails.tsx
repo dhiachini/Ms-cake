@@ -96,11 +96,11 @@ const WorkshopDetails = () => {
     }
     // Update the remaining places
     const updatedWorkshops = workshops.map((w) =>
-      w.id === id ? { ...w, places: w.places - placesToReserve } : w
+      w.id === id ? { ...w, places: w.places - placesToReserve } : w,
     );
     setWorkshops(updatedWorkshops);
     alert(
-      `Réservation pour ${workshop.title} confirmée pour ${placesToReserve} place(s)!`
+      `Réservation pour ${workshop.title} confirmée pour ${placesToReserve} place(s)!`,
     );
     navigate("/workshops"); // Navigate back to the workshops page
   };
@@ -171,7 +171,7 @@ const WorkshopDetails = () => {
                 max={workshop.places}
                 value={placesToReserve}
                 onChange={handlePlacesChange}
-                className="w-32 p-2 border border-[#461712] rounded-lg focus:outline-none md:w-32" 
+                className="w-32 p-2 border border-[#461712] rounded-lg focus:outline-none md:w-32"
               />
             </div>
             <div className="flex justify-end">

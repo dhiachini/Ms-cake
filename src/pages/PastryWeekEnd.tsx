@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import Footer from "../components/Footer";
+import CustomOrderPopup from "../components/modals/CustomOrderPopup";
 
 function PastryWeekEnd() {
   const workshops = [
@@ -54,15 +55,23 @@ function PastryWeekEnd() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const [isCustomOrderOpen, setIsCustomOrderOpen] = useState(false);
 
   const paginatedWorkshops = workshops.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo(500, 500); // Scroll to top on page change
+  };
+  const openCustomOrder = () => {
+    setIsCustomOrderOpen(true);
+  };
+
+  const closeCustomOrder = () => {
+    setIsCustomOrderOpen(false);
   };
 
   return (
@@ -89,7 +98,10 @@ function PastryWeekEnd() {
               Chaque semaine, une sélection inspirée par les pulsons.
               <br /> les envies et vos gourmandises.{" "}
             </section>
-            <button className="bg-[#5a140a] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-6 py-3 mt-9 w-auto rounded-3xl cursor-pointer border-0 outline-none mx-auto ">
+            <button
+              onClick={openCustomOrder}
+              className="bg-[#5a140a] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-6 py-3 mt-9 w-auto rounded-3xl cursor-pointer border-0 outline-none mx-auto "
+            >
               Passer une commande personnalisée
             </button>
           </div>
@@ -138,6 +150,7 @@ function PastryWeekEnd() {
       </div>
 
       <Footer />
+      <CustomOrderPopup isOpen={isCustomOrderOpen} onClose={closeCustomOrder} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import MsIcon from "../assets/icons/MsIcon";
+import MsIcon from "../assets/icons/MsIconBlack";
 import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -87,13 +87,15 @@ function Navbar() {
               <Link
                 to="/workshops"
                 className={`rounded-md px-3 py-2 text-sm font-medium ${
-                  location.pathname === "/workshops"
+                  location.pathname === "/workshops" ||
+                  location.pathname.startsWith("/workshop/")
                     ? "bg-[#b06c74]/10 text-[#b06c74]"
                     : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
                 }`}
               >
                 Ateliers
               </Link>
+
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"

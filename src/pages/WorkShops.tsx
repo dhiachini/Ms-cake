@@ -82,11 +82,11 @@ function WorkShops() {
   };
 
   const filteredWorkshops = workshops.filter(
-    (workshop) => workshop.category === selectedCategory
+    (workshop) => workshop.category === selectedCategory,
   );
   const paginatedWorkshops = filteredWorkshops.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (page: number) => {
