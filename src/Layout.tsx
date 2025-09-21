@@ -3,6 +3,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Card from "./components/Card";
 import EbookIcon from "./assets/icons/EbookIcon";
+import article1 from "./assets/images/article-weekend-1.png";
+import article2 from "./assets/images/article-weekend-2.png";
+import article3 from "./assets/images/article-weekend-3.png";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -30,7 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="w-full flex-1 p-4">
               <Card>
                 <img
-                  src="/src/assets/images/article-weekend-1.png"
+                  src={article1}
                   alt="Photo 1"
                   className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
@@ -39,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="w-full flex-1 p-4">
               <Card>
                 <img
-                  src="/src/assets/images/article-weekend-2.png"
+                  src={article2}
                   alt="Photo 2"
                   className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
@@ -48,7 +51,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="w-full flex-1 p-4">
               <Card>
                 <img
-                  src="/src/assets/images/article-weekend-3.png"
+                  src={article3}
                   alt="Photo 3"
                   className="object-cover w-full h-90 mb-4 rounded-xl"
                 />
