@@ -3,6 +3,14 @@ import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import workshopBreadcrumb from "../assets/images/workshop-breadcrumb.png";
+import workshop1 from "../assets/images/Workshop-image-1.jpg";
+import workshop2 from "../assets/images/Workshop-image-2.jpg";
+import workshop3 from "../assets/images/Workshop-image-3.jpg";
+import workshop4 from "../assets/images/Workshop-image-4.jpg";
+import workshop5 from "../assets/images/Workshop-image-5.jpg";
+import workshop6 from "../assets/images/Workshop-image-6.jpg";
+import workshop7 from "../assets/images/Workshop-image-7.jpg";
 
 function WorkShops() {
   const workshops = [
@@ -12,7 +20,7 @@ function WorkShops() {
       date: "Samedi 12 Juillet",
       price: 420,
       places: 3,
-      image: "/src/assets/images/Workshop-image-1.jpg",
+      image: workshop1,
       category: "Pâtisserie",
     },
     {
@@ -21,7 +29,7 @@ function WorkShops() {
       date: "Dimanche 13 Juillet",
       price: 80,
       places: 2,
-      image: "/src/assets/images/Workshop-image-2.jpg",
+      image: workshop2,
       category: "Pâtisserie",
     },
     {
@@ -30,7 +38,7 @@ function WorkShops() {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-3.jpg",
+      image: workshop3,
       category: "Pâtisserie",
     },
     {
@@ -39,7 +47,7 @@ function WorkShops() {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-4.jpg",
+      image: workshop4,
       category: "Pâtisserie",
     },
     {
@@ -48,7 +56,7 @@ function WorkShops() {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-5.jpg",
+      image: workshop5,
       category: "Pâtisserie",
     },
     {
@@ -57,7 +65,7 @@ function WorkShops() {
       date: "Mardi 15 Juillet",
       price: 80,
       places: 1,
-      image: "/src/assets/images/Workshop-image-6.jpg",
+      image: workshop6,
       category: "Cake design",
     },
     {
@@ -66,7 +74,7 @@ function WorkShops() {
       date: "Mardi 15 Juillet",
       price: 80,
       places: 1,
-      image: "/src/assets/images/Workshop-image-7.jpg",
+      image: workshop7,
       category: "Cake design",
     },
   ];
@@ -102,7 +110,7 @@ function WorkShops() {
       </div>
       <div className="w-full flex flex-col items-center">
         <img
-          src="/src/assets/images/workshop-breadcrumb.png"
+          src={workshopBreadcrumb}
           alt="Workshop Breadcrumb"
           className="w-full h-70 object-cover mt-0"
         />

@@ -3,6 +3,11 @@ import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import Footer from "../components/Footer";
 import CustomOrderPopup from "../components/modals/CustomOrderPopup";
+import weekEndBreadcrumb from "../assets/images/week-end-patisserie-breadcrumb.jpg";
+import patisserie1 from "../assets/images/patisserie-week-1.jpg";
+import patisserie2 from "../assets/images/patisserie-week-2.jpg";
+import patisserie3 from "../assets/images/patisserie-week-3.jpg";
+import patisserie4 from "../assets/images/patisserie-week-4.jpg";
 
 function PastryWeekEnd() {
   const workshops = [
@@ -10,46 +15,46 @@ function PastryWeekEnd() {
       id: 1,
       title: "Tarte fraise pistache",
       description: "Pate sablée, crème pistache, fraises fraîches",
-      image: "/src/assets/images/patisserie-week-1.jpg",
+      image: patisserie1,
     },
     {
       id: 2,
       title: "Millefeuille",
       description: "Crème diplomate vanille, pâte feuilletée caramélisée",
-      image: "/src/assets/images/patisserie-week-2.jpg",
+      image: patisserie2,
     },
     {
       id: 3,
       title: "Tarte citron meringuée",
       description: "Lemond curd, meringue italienne",
-      image: "/src/assets/images/patisserie-week-3.jpg",
+      image: patisserie3,
     },
     {
       id: 4,
       title: "Eclaier chocolat",
       description: "Dark chocolate ganache, pâte à choux",
-      image: "/src/assets/images/patisserie-week-4.jpg",
+      image: patisserie4,
     },
     {
       id: 5,
       title: "Masterclass Macaron",
       description:
         "Parfait pour débutants, apprenez les bases des macarons avec un chef.",
-      image: "/src/assets/images/patisserie-week-1.jpg",
+      image: patisserie1,
     },
     {
       id: 6,
       title: "Masterclass Tarte",
       description:
         "Créez des tartes élégantes avec des techniques de cake design innovantes.",
-      image: "/src/assets/images/patisserie-week-2.jpg",
+      image: patisserie2,
     },
     {
       id: 7,
       title: "Masterclass Tarte",
       description:
         "Maîtrisez la tarte avec des designs personnalisés et des garnitures uniques.",
-      image: "/src/assets/images/patisserie-week-3.jpg",
+      image: patisserie3,
     },
   ];
 
@@ -82,7 +87,7 @@ function PastryWeekEnd() {
       <div className="w-full flex flex-col items-center">
         <div className="relative w-full h-120">
           <img
-            src="/src/assets/images/week-end-patisserie-breadcrumb.jpg"
+            src={weekEndBreadcrumb}
             alt="Workshop Breadcrumb"
             className="w-full h-full object-cover mt-0"
           />

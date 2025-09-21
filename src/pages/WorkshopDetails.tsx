@@ -5,6 +5,13 @@ import Footer from "../components/Footer";
 import AuthPopup from "../components/modals/AuthPopup";
 import SummaryPopup from "../components/modals/SummaryPopup";
 import ConfirmationPopup from "../components/modals/ConfirmationPopup";
+import workshop1 from "../assets/images/Workshop-image-1.jpg";
+import workshop2 from "../assets/images/Workshop-image-2.jpg";
+import workshop3 from "../assets/images/Workshop-image-3.jpg";
+import workshop4 from "../assets/images/Workshop-image-4.jpg";
+import workshop5 from "../assets/images/Workshop-image-5.jpg";
+import workshop6 from "../assets/images/Workshop-image-6.jpg";
+import workshop7 from "../assets/images/Workshop-image-7.jpg";
 
 const WorkshopDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +28,7 @@ const WorkshopDetails = () => {
       date: "Samedi 12 Juillet",
       price: 420,
       places: 3,
-      image: "/src/assets/images/Workshop-image-1.jpg",
+      image: workshop1,
       category: "Pâtisserie",
     },
     {
@@ -30,7 +37,7 @@ const WorkshopDetails = () => {
       date: "Dimanche 13 Juillet",
       price: 80,
       places: 2,
-      image: "/src/assets/images/Workshop-image-2.jpg",
+      image: workshop2,
       category: "Pâtisserie",
     },
     {
@@ -39,7 +46,7 @@ const WorkshopDetails = () => {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-3.jpg",
+      image: workshop3,
       category: "Pâtisserie",
     },
     {
@@ -48,7 +55,7 @@ const WorkshopDetails = () => {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-4.jpg",
+      image: workshop4,
       category: "Pâtisserie",
     },
     {
@@ -57,7 +64,7 @@ const WorkshopDetails = () => {
       date: "Lundi 14 Juillet",
       price: 80,
       places: 4,
-      image: "/src/assets/images/Workshop-image-5.jpg",
+      image: workshop5,
       category: "Pâtisserie",
     },
     {
@@ -66,7 +73,7 @@ const WorkshopDetails = () => {
       date: "Mardi 15 Juillet",
       price: 80,
       places: 1,
-      image: "/src/assets/images/Workshop-image-6.jpg",
+      image: workshop6,
       category: "Cake design",
     },
     {
@@ -75,7 +82,7 @@ const WorkshopDetails = () => {
       date: "Mardi 15 Juillet",
       price: 80,
       places: 1,
-      image: "/src/assets/images/Workshop-image-7.jpg",
+      image: workshop7,
       category: "Cake design",
     },
   ];
