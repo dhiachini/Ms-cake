@@ -5,7 +5,7 @@ import MsIcon from "../../assets/icons/MsIconBlack";
 
 interface AuthPopupProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (email?: string) => void; // Updated to return email on success
   onSwitch: (type: "signin" | "signup") => void;
 }
 
@@ -55,7 +55,11 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
     e.preventDefault();
     // Placeholder for form submission logic (e.g., API call)
     console.log("Form submitted:", { authType, ...formData });
-    onClose(); // Close popup after submission
+    if (formData.email) {
+      onClose(formData.email); // Return email on successful submission
+    } else {
+      onClose(); // Close without email if submission fails
+    }
   };
 
   // Set the app element for accessibility (required by react-modal)
@@ -64,7 +68,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
       className="flex items-center justify-center fixed inset-0 z-[60] p-4" // Increased z-index to 60
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]" // Increased z-index to 60
       contentLabel={authType === "signin" ? "Connexion" : "Inscription"}
@@ -81,7 +85,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
 
           {/* Bouton */}
           <button
-            onClick={onClose}
+            onClick={() => onClose()}
             className="text-gray-500 hover:text-gray-700 absolute top-0 right-0"
           >
             <X className="w-6 h-6" />
@@ -89,38 +93,105 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {authType === "signin" && (
+            <>
+              <div className="mb-4">
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Votre email"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Mot de passe
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Votre mot de passe"
+                />
+              </div>
+            </>
+          )}
+
           {authType === "signup" && (
-            <div className="mb-4">
-              <label className="block text-[#481713] font-semibold mb-2">
-                Nom
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-                placeholder="Votre nom"
-              />
+            <div className="mb-4 md:grid md:grid-cols-2 md:gap-4">
+              <div>
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Votre email"
+                />
+              </div>
+              <div>
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Nom et prénom
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Votre nom et prénom"
+                />
+              </div>
             </div>
           )}
-          <div className="mb-4">
-            <label className="block text-[#481713] font-semibold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-              placeholder="Votre email"
-            />
-          </div>
           {authType === "signup" && (
-            <div>
+            <div className="mb-4 md:grid md:grid-cols-2 md:gap-4">
+              <div>
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Mot de passe
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Votre mot de passe"
+                />
+              </div>
+              <div>
+                <label className="block text-[#481713] font-semibold mb-2">
+                  Confirmer le mot de passe
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  placeholder="Confirmez votre mot de passe"
+                />
+              </div>
+            </div>
+          )}
+          {authType === "signup" && (
+            <div className="mb-4">
               <label className="block text-[#481713] font-semibold mb-2">
                 Téléphone
               </label>
@@ -130,40 +201,10 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74] mb-4"
+                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
                 placeholder="06 12 34 56 78"
                 pattern="[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}"
                 title="Format attendu : 06 12 34 56 78"
-              />
-            </div>
-          )}
-          <div className="mb-4">
-            <label className="block text-[#481713] font-semibold mb-2">
-              Mot de passe
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-              className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-              placeholder="Votre mot de passe"
-            />
-          </div>
-          {authType === "signup" && (
-            <div className="mb-6">
-              <label className="block text-[#481713] font-semibold mb-2">
-                Confirmer le mot de passe
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-                placeholder="Confirmez votre mot de passe"
               />
             </div>
           )}

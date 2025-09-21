@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import AuthPopup from "../components/modals/AuthPopup";
+import SummaryPopup from "../components/modals/SummaryPopup";
+import ConfirmationPopup from "../components/modals/ConfirmationPopup";
 
 const WorkshopDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,7 +80,7 @@ const WorkshopDetails = () => {
     },
   ];
 
-  const [workshops, setWorkshops] = useState(initialWorkshops);
+  const [workshops] = useState(initialWorkshops);
   const workshop = workshops.find((w) => w.id === id);
 
   if (!workshop) {
@@ -88,21 +90,23 @@ const WorkshopDetails = () => {
   }
 
   const [placesToReserve, setPlacesToReserve] = useState(1);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [, setAuthType] = useState<"signin" | "signup">("signin");
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState(""); // Simulated user email after authentication
 
   const handleReserve = () => {
     if (placesToReserve > workshop.places) {
       alert("Le nombre de places demandées dépasse les places restantes!");
       return;
     }
-    // Update the remaining places
-    const updatedWorkshops = workshops.map((w) =>
-      w.id === id ? { ...w, places: w.places - placesToReserve } : w,
-    );
-    setWorkshops(updatedWorkshops);
-    alert(
-      `Réservation pour ${workshop.title} confirmée pour ${placesToReserve} place(s)!`,
-    );
-    navigate("/workshops"); // Navigate back to the workshops page
+    if (!isAuthenticated) {
+      setIsConfirmationOpen(true);
+    } else {
+      setIsSummaryOpen(true);
+    }
   };
 
   const handlePlacesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +118,38 @@ const WorkshopDetails = () => {
     } else {
       setPlacesToReserve(value);
     }
+  };
+
+  const closeAuth = (email?: string) => {
+    setIsAuthOpen(false);
+    if (email) {
+      setIsAuthenticated(true);
+      setUserEmail(email); // Set email after successful auth
+    }
+    setIsSummaryOpen(true); // Open summary popup after auth or cancellation
+  };
+
+  const switchAuth = (type: "signin" | "signup") => {
+    setAuthType(type);
+  };
+
+  const closeSummary = () => {
+    setIsSummaryOpen(false);
+  };
+
+  const closeConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+
+  const openAuthPopup = () => {
+    setIsConfirmationOpen(false);
+    setIsAuthOpen(true);
+    setAuthType("signin");
+  };
+
+  const openSummaryPopup = () => {
+    setIsConfirmationOpen(false);
+    setIsSummaryOpen(true);
   };
 
   return (
@@ -186,6 +222,24 @@ const WorkshopDetails = () => {
         </div>
       </div>
       <Footer />
+      <AuthPopup
+        isOpen={isAuthOpen}
+        onClose={closeAuth}
+        onSwitch={switchAuth}
+      />
+      <SummaryPopup
+        isOpen={isSummaryOpen}
+        onClose={closeSummary}
+        workshop={workshop}
+        placesToReserve={placesToReserve}
+        userEmail={isAuthenticated ? userEmail : undefined} // Pass email if authenticated
+      />
+      <ConfirmationPopup
+        isOpen={isConfirmationOpen}
+        onClose={closeConfirmation}
+        onLogin={openAuthPopup}
+        onGuest={openSummaryPopup}
+      />
     </div>
   );
 };
