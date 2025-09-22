@@ -18,18 +18,21 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-start mt-4">
+    <div className="flex justify-center gap-1 mt-4 flex-wrap md:flex-nowrap items-center">
+      {/* Précédent pour desktop */}
       <button
-        className="bg-[#461712] hover:bg-[#b06c74] text-white px-1 py-1 h-[40px] w-[90px] rounded-lg cursor-pointer border-0 outline-none"
+        className="hidden md:inline-flex items-center justify-center bg-[#461712] hover:bg-[#b06c74] text-white h-[40px] w-[90px] rounded-lg cursor-pointer border-0 outline-none"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
         Précédent
       </button>
+
+      {/* Numéros de pages */}
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <button
           key={page}
-          className={`bg-[#461712] hover:bg-[#b06c74] text-white px-3 py-1 h-[40px] w-[40px] rounded-lg cursor-pointer border-0 outline-none mx-1 ${
+          className={`bg-[#461712] hover:bg-[#b06c74] text-white h-[40px] w-[40px] rounded-lg cursor-pointer border-0 outline-none mx-1 flex items-center justify-center ${
             currentPage === page ? "bg-[#b06c74]" : ""
           }`}
           onClick={() => onPageChange(page)}
@@ -37,8 +40,10 @@ const Pagination: React.FC<PaginationProps> = ({
           {page}
         </button>
       ))}
+
+      {/* Suivant pour desktop */}
       <button
-        className="bg-[#461712] hover:bg-[#b06c74] text-white px-3 py-1 h-[40px] w-[90px] rounded-lg cursor-pointer border-0 outline-none"
+        className="hidden md:inline-flex items-center justify-center bg-[#461712] hover:bg-[#b06c74] text-white h-[40px] w-[90px] rounded-lg cursor-pointer border-0 outline-none"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >

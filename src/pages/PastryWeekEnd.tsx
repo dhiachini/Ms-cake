@@ -64,7 +64,7 @@ function PastryWeekEnd() {
 
   const paginatedWorkshops = workshops.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handlePageChange = (page: number) => {
@@ -94,15 +94,17 @@ function PastryWeekEnd() {
 
           {/* Texte et bouton positionnés sur la photo */}
           <div className="absolute top-1/2 left-10 -translate-y-1/2 space-y-3">
-            <h1 className="font-serif text-5xl text-[#342520]">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520]">
               MENU DU
               <br /> WEEK-END <br /> pâtisserie éphémère
               <br />
             </h1>
-            <section className="font-serif text-2xl text-[#342520] mt-5">
+
+            <section className="font-serif text-sm sm:text-base md:text-2xl text-[#342520] mt-5">
               Chaque semaine, une sélection inspirée par les pulsons.
-              <br /> les envies et vos gourmandises.{" "}
+              <br /> les envies et vos gourmandises.
             </section>
+
             <button
               onClick={openCustomOrder}
               className="bg-[#5a140a] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-6 py-3 mt-9 w-auto rounded-3xl cursor-pointer border-0 outline-none mx-auto "
@@ -131,12 +133,13 @@ function PastryWeekEnd() {
                       />
                     </div>
                     <div className="p-5">
-                      <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713]">
+                      <h5 className="mb-3 text-base sm:text-lg md:text-2xl font-bold tracking-tight text-[#481713]">
                         {workshop.title}
                       </h5>
-                      <p className="text-[#481713] font-normal">
-                        {workshop.description}
-                      </p>
+                      <p className="text-sm sm:text-base md:text-[#481713] font-normal">
+  {workshop.description}
+</p>
+
                     </div>
                   </div>
                 </div>

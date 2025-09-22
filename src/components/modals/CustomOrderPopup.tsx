@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
 import MsIcon from "../../assets/icons/MsIconBlack";
@@ -19,7 +19,7 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     if (name === "phone") {
@@ -60,7 +60,26 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
 
   // Set the app element for accessibility (required by react-modal)
   Modal.setAppElement("#root"); // Adjust based on your app's root element ID
+  // Blocage du scroll
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.overflow = "hidden";
 
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
   return (
     <Modal
       isOpen={isOpen}
@@ -69,7 +88,7 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]"
       contentLabel="Custom Order Form"
     >
-      <div className="bg-white rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
         <div className="flex flex-col items-center mb-6">
           <MsIcon className="h-30 w-full" />
           <p className="text-center text-[#481713] text-lg">

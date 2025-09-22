@@ -42,9 +42,28 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       email: userEmail || prev.email, // Update email if userEmail changes
     }));
   }, [initialPlaces, userEmail]);
+  // Blocage du scroll
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.overflow = "hidden";
 
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     if (name === "places") {
@@ -69,7 +88,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       "Guest reservation summary:",
       formData,
       "Total Price:",
-      totalPrice,
+      totalPrice
     );
     onClose(); // Close popup after submission (replace with payment logic)
     // Placeholder for payment navigation (e.g., navigate("/payment"))
@@ -85,7 +104,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]"
       contentLabel="Reservation Summary"
     >
-      <div className="bg-white rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-bold text-[#481713] mb-2">
             Résumé de la réservation

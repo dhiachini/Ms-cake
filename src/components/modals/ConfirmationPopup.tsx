@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
 
@@ -17,15 +17,36 @@ const ConfirmationPopup: React.FC<ConfirmationPopupProps> = ({
 }) => {
   Modal.setAppElement("#root"); // Adjust based on your app's root element ID
 
+  // Blocage du scroll
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="flex items-center justify-center fixed inset-0 z-[60] p-4"
+      className="flex  items-center justify-center fixed inset-0 z-[60] p-4"
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]"
       contentLabel="Confirmation Popup"
     >
-      <div className="bg-white rounded-lg max-w-sm w-full p-6 relative">
+      <div className="bg-white rounded-2xl max-w-2xl w-full p-6 relative">
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-xl font-semibold text-[#481713] mb-4">
             Connexion requise

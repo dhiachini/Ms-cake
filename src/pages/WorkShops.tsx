@@ -90,11 +90,11 @@ function WorkShops() {
   };
 
   const filteredWorkshops = workshops.filter(
-    (workshop) => workshop.category === selectedCategory,
+    (workshop) => workshop.category === selectedCategory
   );
   const paginatedWorkshops = filteredWorkshops.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handlePageChange = (page: number) => {
@@ -157,25 +157,29 @@ function WorkShops() {
 
                     <div className="p-5 ">
                       <a href="#">
-                        <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713]">
+                        <h5 className="mb-2 text-base sm:text-lg md:text-2xl font-normal tracking-tight text-[#481713]">
                           {workshop.title}
                         </h5>
                       </a>
-                      <div className="flex flex-col md:flex-row justify-between items-center">
-                        <p className="font-normal text-[#481713] ">
+
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 md:gap-0 mb-2">
+                        <p className="text-sm sm:text-base font-normal text-[#481713]">
                           {workshop.date}
                         </p>
-                        <p className="font-normal text-[#481713] ">
+                        <p className="text-sm sm:text-base font-normal text-[#481713]">
                           {workshop.price} €
                         </p>
                       </div>
-                      <div className="flex flex-col md:flex-row justify-between items-center">
-                        <p className="font-normal text-[#481713]">
+
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 md:gap-0">
+                        <p className="text-sm sm:text-base font-normal text-[#481713]">
                           {workshop.places} Places restantes
                         </p>
                         <button
-                          onClick={() => navigate(`/workshop/${workshop.id}`)} // Use navigate function
-                          className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none"
+                          onClick={() => navigate(`/workshop/${workshop.id}`)}
+                          className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white 
+             px-2 py-1 h-[35px] w-[120px] sm:h-[50px] sm:w-[180px] 
+             text-xs sm:text-base rounded-3xl cursor-pointer border-0 outline-none"
                         >
                           Reserver ma place
                         </button>
