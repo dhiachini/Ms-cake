@@ -132,12 +132,16 @@ function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+          <Link
+            to="/pastryweekend"
+            className={`block rounded-md px-3 py-2 text-base font-medium ${
+              location.pathname === "/pastryweekend"
+                ? "bg-[#b06c74]/10 text-[#b06c74]"
+                : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+            }`}
           >
             Patisseries
-          </a>
+          </Link>
           <a
             href="#"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"

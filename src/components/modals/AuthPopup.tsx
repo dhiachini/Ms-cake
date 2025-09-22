@@ -73,7 +73,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]" // Increased z-index to 60
       contentLabel={authType === "signin" ? "Connexion" : "Inscription"}
     >
-      <div className="bg-[#fffcf7] rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <div className="bg-[#fffcf7] rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative overflow-hidden">
         <div className="relative flex flex-col items-center justify-center mb-6 md:flex-row">
           {/* Logo */}
           <MsIcon className="h-20 w-20 mb-3 md:mb-0 md:absolute md:left-8" />
