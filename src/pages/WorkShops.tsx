@@ -157,20 +157,20 @@ function WorkShops() {
 
                     <div className="p-5 ">
                       <a href="#">
-                        <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713] dark:text-white">
+                        <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713]">
                           {workshop.title}
                         </h5>
                       </a>
                       <div className="flex flex-col md:flex-row justify-between items-center">
-                        <p className="font-normal text-[#481713] dark:text-gray-400">
+                        <p className="font-normal text-[#481713] ">
                           {workshop.date}
                         </p>
-                        <p className="font-normal text-[#481713] dark:text-gray-400 mb-4">
+                        <p className="font-normal text-[#481713] ">
                           {workshop.price} €
                         </p>
                       </div>
                       <div className="flex flex-col md:flex-row justify-between items-center">
-                        <p className="font-normal text-[#481713] dark:text-gray-400">
+                        <p className="font-normal text-[#481713]">
                           {workshop.places} Places restantes
                         </p>
                         <button

@@ -131,7 +131,7 @@ function PastryWeekEnd() {
                       />
                     </div>
                     <div className="p-5">
-                      <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713] dark:text-white">
+                      <h5 className="mb-3 text-2xl font-normal tracking-tight text-[#481713]">
                         {workshop.title}
                       </h5>
                       <p className="text-[#481713] font-normal">
