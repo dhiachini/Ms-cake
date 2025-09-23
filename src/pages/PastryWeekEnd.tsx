@@ -95,8 +95,7 @@ function PastryWeekEnd() {
           {/* Texte et bouton positionnés sur la photo */}
           <div className="absolute top-1/2 left-10 -translate-y-1/2 space-y-3">
             <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520]">
-              MENU DU
-              <br /> WEEK-END <br /> pâtisserie éphémère
+              MENU DU WEEK-END <br /> pâtisserie éphémère
               <br />
             </h1>
 

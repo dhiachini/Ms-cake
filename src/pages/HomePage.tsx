@@ -1,6 +1,6 @@
 import { Cake, ChefHat, HandPlatter } from "lucide-react";
 import Layout from "../Layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function HomePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,6 +30,15 @@ function HomePage() {
     setCurrentIndex((prev) => (prev - 1 + boxes.length) % boxes.length);
   };
 
+  // Auto slide every 2s on mobile
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Touch event handlers for swipe
   let touchStartX = 0;
   let touchEndX = 0;
@@ -56,49 +65,42 @@ function HomePage() {
   return (
     <Layout>
       <div className="space-y-7">
-        <div className="banner py-24 h-screen">
-          <div className="container space-y-3">
-            <h1 className="font-serif text-5xl text-[#342520]">
-              La haute pâtisserie
-              <br /> française, personalisée <br /> pour vos plus belles
-              <br />
-              occasions
+        <div className="banner py-24 h-screen flex items-center">
+          <div className="space-y-3 text-left pl-6 md:pl-12 lg:pl-24">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520] max-w-3xl">
+              La haute pâtisserie française,
+            </h1>
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520] max-w-3xl">
+              personalisée pour vos plus
+            </h1>
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520] max-w-3xl">
+              belles occasions
             </h1>
             <button className="bg-[#faf4e6] hover:bg-[#b06c74] hover:text-[#faf4e6] text-black px-3 py-1 h-[50px] mt-9 w-[180px] rounded-3xl cursor-pointer border-0 outline-none">
               Découvrez-nous
             </button>
           </div>
-          {/* Div ajouté après les images */}
         </div>
+
         {/* Box positionnées à 50% du bas de la bannière */}
         <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[100%] w-full flex justify-center z-10">
           <div className="relative w-full md:w-auto">
-            {/* Carousel for mobile, row for md+ */}
+            {/* Carousel for desktop */}
             <div className="md:flex md:flex-row md:gap-[3rem] hidden rounded-xl">
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
-                {boxes[0].icon}
-                <span className="text-3xl text-[#1d110f] text-center mb-3">
-                  {boxes[0].title} <br />
-                </span>
-                <span>{boxes[0].subtitle}</span>
-              </div>
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
-                {boxes[1].icon}
-                <span className="text-3xl text-[#1d110f] text-center mb-3">
-                  {boxes[1].title} <br />
-                </span>
-                <span>{boxes[1].subtitle}</span>
-              </div>
-              <div className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl">
-                {boxes[2].icon}
-                <span className="text-3xl text-[#1d110f] text-center">
-                  {boxes[2].title} <br />
-                </span>
-                <span className="text-xl text-[#1d110f] text-center">
-                  {boxes[2].subtitle}
-                </span>
-              </div>
+              {boxes.map((box, index) => (
+                <div
+                  key={index}
+                  className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl"
+                >
+                  {box.icon}
+                  <span className="text-3xl text-[#1d110f] text-center mb-3">
+                    {box.title} <br />
+                  </span>
+                  <span>{box.subtitle}</span>
+                </div>
+              ))}
             </div>
+
             {/* Carousel for mobile */}
             <div className="md:hidden">
               <div className="relative w-full h-56 overflow-hidden">
