@@ -65,8 +65,8 @@ function HomePage() {
   return (
     <Layout>
       <div className="space-y-7">
-        <div className="banner py-24 h-screen flex items-start md:items-center">
-          <div className="space-y-3 text-left pl-6 md:pl-12 lg:pl-24">
+        <div className="banner relative min-h-screen flex items-start md:items-center">
+          <div className="space-y-3 text-left pl-6 mt-16 md:pl-12 lg:pl-24">
             <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520] max-w-3xl">
               La haute pâtisserie française,
             </h1>
@@ -80,49 +80,49 @@ function HomePage() {
               Découvrez-nous
             </button>
           </div>
-        </div>
 
-        {/* Box positionnées à 50% du bas de la bannière */}
-        <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[100%] w-full flex justify-center z-10">
-          <div className="relative w-full md:w-auto">
-            {/* Carousel for desktop */}
-            <div className="md:flex md:flex-row md:gap-[3rem] hidden rounded-xl">
-              {boxes.map((box, index) => (
-                <div
-                  key={index}
-                  className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl"
-                >
-                  {box.icon}
-                  <span className="text-3xl text-[#1d110f] text-center mb-3">
-                    {box.title} <br />
-                  </span>
-                  <span>{box.subtitle}</span>
-                </div>
-              ))}
-            </div>
+          {/* 👉 Boxes à moitié en dehors */}
+          <div className="absolute left-1/2 bottom-[-20%] -translate-x-1/2 w-full flex justify-center z-10">
+            <div className="relative w-full md:w-auto">
+              {/* Desktop */}
+              <div className="md:flex md:flex-row md:gap-[3rem] hidden rounded-xl">
+                {boxes.map((box, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#fdf5f2] w-full h-56 p-7 flex flex-col justify-center items-center rounded-xl"
+                  >
+                    {box.icon}
+                    <span className="text-3xl text-[#1d110f] text-center mb-3">
+                      {box.title} <br />
+                    </span>
+                    <span>{box.subtitle}</span>
+                  </div>
+                ))}
+              </div>
 
-            {/* Carousel for mobile */}
-            <div className="md:hidden">
-              <div className="relative w-full h-56 overflow-hidden">
-                <div
-                  className="flex transition-transform duration-300 ease-in-out"
-                  style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                >
-                  {boxes.map((box, index) => (
-                    <div
-                      onTouchStart={handleTouchStart}
-                      onTouchMove={handleTouchMove}
-                      onTouchEnd={handleTouchEnd}
-                      key={index}
-                      className="bg-[#fdf5f2] w-full h-full p-7 flex flex-col justify-center items-center min-w-full"
-                    >
-                      {box.icon}
-                      <span className="text-3xl text-[#1d110f] text-center mb-3">
-                        {box.title} <br />
-                      </span>
-                      <span>{box.subtitle}</span>
-                    </div>
-                  ))}
+              {/* Mobile */}
+              <div className="md:hidden">
+                <div className="relative w-full h-56 overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-300 ease-in-out"
+                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                  >
+                    {boxes.map((box, index) => (
+                      <div
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        key={index}
+                        className="bg-[#fdf5f2] w-full h-full p-7 flex flex-col justify-center items-center min-w-full"
+                      >
+                        {box.icon}
+                        <span className="text-3xl text-[#1d110f] text-center mb-3">
+                          {box.title} <br />
+                        </span>
+                        <span>{box.subtitle}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

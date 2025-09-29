@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       {/* Contenu principal */}
-      <div className="w-full h-screen">{children}</div>
+      <div className="w-full">{children}</div>
 
       {/* Section avec carousel + ebook */}
       <div className="w-full p-8 bg-[#fffcf5] ">
