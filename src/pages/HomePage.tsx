@@ -65,7 +65,7 @@ function HomePage() {
   return (
     <Layout>
       <div className="space-y-7">
-        <div className="banner py-24 h-screen flex items-center">
+        <div className="banner py-24 h-screen flex items-start md:items-center">
           <div className="space-y-3 text-left pl-6 md:pl-12 lg:pl-24">
             <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#342520] max-w-3xl">
               La haute pâtisserie française,

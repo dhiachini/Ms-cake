@@ -37,20 +37,22 @@ function WeekendCarousel() {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {boxes.map((img, i) => (
-            <div key={i} className="min-w-full p-4 flex-shrink-0">
+            <div key={i} className="w-full flex-shrink-0">
               <Card>
-                <img
-                  src={img}
-                  alt={`Photo ${i + 1}`}
-                  className="object-cover w-full h-90 mb-4 rounded-xl"
-                />
+                <div className="p-4">
+                  <img
+                    src={img}
+                    alt={`Photo ${i + 1}`}
+                    className="object-cover w-full h-90 mb-4 rounded-xl"
+                  />
+                </div>
               </Card>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Desktop carousel: 2 images at a time, auto-slide, no arrows */}
+      {/* Desktop carousel: 2 images at a time, auto-slide */}
       <div className="hidden md:flex w-full mt-5 gap-4 overflow-hidden">
         <div
           className="flex w-full transition-transform duration-500 ease-in-out"
