@@ -13,7 +13,7 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
-      <div className="sticky top-0 w-full z-50">
+      <div className="fixed top-0 w-full z-50">
         <Navbar />
       </div>
 

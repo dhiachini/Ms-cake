@@ -77,11 +77,38 @@ function WorkShops() {
       image: workshop7,
       category: "Cake design",
     },
+    {
+      id: 8,
+      title: "Masterclass Macaron",
+      date: "Lundi 14 Juillet",
+      price: 80,
+      places: 4,
+      image: workshop5,
+      category: "Pâtisserie",
+    },
+    {
+      id: 8,
+      title: "Masterclass Tarte",
+      date: "Mardi 15 Juillet",
+      price: 80,
+      places: 1,
+      image: workshop6,
+      category: "Cake design",
+    },
+    {
+      id: 9,
+      title: "Masterclass Tarte",
+      date: "Mardi 15 Juillet",
+      price: 80,
+      places: 1,
+      image: workshop7,
+      category: "Cake design",
+    },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState("Pâtisserie");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
   const navigate = useNavigate(); // Call useNavigate at the top level
 
   const handleCategoryClick = (category: string) => {
@@ -100,7 +127,7 @@ function WorkShops() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Scroll to top on component mount
-    window.scrollTo(300, 300);
+    window.scrollTo(370, 370);
   };
 
   return (
@@ -138,7 +165,7 @@ function WorkShops() {
             </button>
           </div>
           <div className="w-full bg-[#fffcf7] rounded-lg p-14">
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 justify-items-center gap-8">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-8">
               {paginatedWorkshops.map((workshop) => (
                 <div
                   key={workshop.id}

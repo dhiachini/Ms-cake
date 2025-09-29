@@ -59,7 +59,7 @@ function PastryWeekEnd() {
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
   const [isCustomOrderOpen, setIsCustomOrderOpen] = useState(false);
 
   const paginatedWorkshops = workshops.slice(
@@ -115,15 +115,13 @@ function PastryWeekEnd() {
 
         <div className="w-full h-full p-8 bg-[#fdf5f2]">
           <div className="w-full bg-[#fffcf7] rounded-lg p-14">
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 justify-items-center gap-8">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-8">
               {paginatedWorkshops.map((workshop) => (
                 <div
                   key={workshop.id}
                   className="max-w-full bg-[#fffcf7] rounded-lg"
                 >
                   <div className="max-w-sm rounded-lg aspect-square">
-                    {" "}
-                    {/* Added aspect-square for square shape */}
                     <div className="w-full h-full rounded-lg overflow-hidden">
                       <img
                         className="w-full h-full object-cover object-center"
@@ -136,14 +134,14 @@ function PastryWeekEnd() {
                         {workshop.title}
                       </h5>
                       <p className="text-sm sm:text-base md:text-[#481713] font-normal">
-  {workshop.description}
-</p>
-
+                        {workshop.description}
+                      </p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
             <div className="flex justify-center mt-8">
               <Pagination
                 totalItems={workshops.length}
