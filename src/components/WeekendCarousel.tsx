@@ -24,10 +24,12 @@ function WeekendCarousel() {
   return (
     <div className="w-full mt-27 md:mt-35">
       {/* Titre centré */}
-      <div className="w-full flex justify-center">
-        <span className="text-2xl md:text-5xl text-[#342520]">
-          Patisseries du week-end
-        </span>
+      <div className="w-full mt-10 md:mt-36">
+        <div className="w-full flex justify-center">
+          <span className="text-3xl md:text-5xl text-[#342520]">
+            Patisseries du week-end
+          </span>
+        </div>
       </div>
 
       {/* Mobile carousel */}
