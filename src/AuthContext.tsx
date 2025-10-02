@@ -11,13 +11,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [status, setStatus] = useState<AuthStatus>("guest");
+  const [status, setStatus] = useState<AuthStatus>("admin");
 
   const login = (role: AuthStatus) => setStatus(role);
   const logout = () => setStatus("guest");
 
   return (
-    <AuthContext.Provider value={{ status, login, logout }}>
+    <AuthContext.Provider value={{ status, login, logout }}>  
       {children}
     </AuthContext.Provider>
   );

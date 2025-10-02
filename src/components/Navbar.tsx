@@ -3,6 +3,7 @@ import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import AuthPopup from "./modals/AuthPopup";
+import { useAuth } from "../AuthContext";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,7 +27,7 @@ function Navbar() {
   const switchAuth = (type: "signin" | "signup") => {
     setAuthType(type);
   };
-
+  const { status } = useAuth();
   return (
     <nav className="relative bg-[#fbf2eb]">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -61,6 +62,19 @@ function Navbar() {
           {/* Menu centered (hidden on mobile, visible on md+) */}
           <div className="hidden md:flex justify-center md:items-center">
             <div className="flex space-x-4">
+              {status === "admin" && (
+                <Link
+                  to="/dashboard"
+                  className={`rounded-md px-3 py-2 text-sm font-medium ${
+                    location.pathname === "/dashboard" ||
+                    location.pathname.startsWith("/workshop/")
+                      ? "bg-[#b06c74]/10 text-[#b06c74]"
+                      : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+                  }`}
+                >
+                  Tableau de bord administrateur
+                </Link>
+              )}
               <Link
                 to="/pastryweekend"
                 className={`rounded-md px-3 py-2 text-sm font-medium ${
@@ -132,6 +146,18 @@ function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
+          {status === "admin" && (
+            <Link
+              to="/dashboard"
+              className={`block rounded-md px-3 py-2 text-base font-medium ${
+                location.pathname === "/dashboard"
+                  ? "bg-[#b06c74]/10 text-[#b06c74]"
+                  : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+              }`}
+            >
+              Tableau de bord administrateur
+            </Link>
+          )}
           <Link
             to="/pastryweekend"
             className={`block rounded-md px-3 py-2 text-base font-medium ${

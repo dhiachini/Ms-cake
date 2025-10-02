@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import WorkShops from "./pages/WorkShops";
+import HomePage from "./userpages/HomePage";
+import WorkShops from "./userpages/WorkShops";
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WorkshopDetails from "./pages/WorkshopDetails";
-import PastryWeekEnd from "./pages/PastryWeekEnd";
+import WorkshopDetails from "./userpages/WorkshopDetails";
+import PastryWeekEnd from "./userpages/PastryWeekEnd";
+import Dashboard from "./adminpages/Dashboard";
 
 function App() {
   return (
@@ -17,10 +18,10 @@ function App() {
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
           {/* Example admin route: */}
           <Route
-            path="/admin"
+            path="/dashboard"
             element={
               <ProtectedRoute requiredRole="admin">
-                <div>Admin Interface</div>
+                <Dashboard />
               </ProtectedRoute>
             }
           />
