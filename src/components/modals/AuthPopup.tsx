@@ -85,7 +85,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
       contentLabel={authType === "signin" ? "Connexion" : "Inscription"}
     >
       <div
-        className={`bg-[#fffcf7] rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative overflow-hidden ${
+        className={`bg-[#fffcf7] rounded-3xl max-w-md w-full max-h-[80vh] overflow-y-auto p-6 relative overflow-hidden ${
           authType === "signup" && "md:max-w-xl lg:max-w-2xl"
         }`}
       >
