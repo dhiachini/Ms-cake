@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../components/Pagination";
+
 import workshop1 from "../assets/images/Workshop-image-1.jpg";
 import workshop2 from "../assets/images/Workshop-image-2.jpg";
 import workshop3 from "../assets/images/Workshop-image-3.jpg";
@@ -14,9 +14,28 @@ import patisserie1 from "../assets/images/patisserie-week-1.jpg";
 import patisserie2 from "../assets/images/patisserie-week-2.jpg";
 import patisserie3 from "../assets/images/patisserie-week-3.jpg";
 import patisserie4 from "../assets/images/patisserie-week-4.jpg";
+import PastryTable from "../components/tables/PastryTable";
+import WorkshopTable from "../components/tables/WorkshopTable";
+
+interface Workshop {
+  id: number;
+  title: string;
+  date: string;
+  price: number;
+  places: number;
+  image: string;
+  category: string;
+}
+
+interface Pastry {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
 
 function Dashboard() {
-  const workshops = [
+  const workshops: Workshop[] = [
     {
       id: 1,
       title: "Masterclass Saint-Honoré",
@@ -126,7 +145,7 @@ function Dashboard() {
       category: "Cake design",
     },
   ];
-  const pastry = [
+  const pastry: Pastry[] = [
     {
       id: 1,
       title: "Tarte fraise pistache",
@@ -174,8 +193,9 @@ function Dashboard() {
     },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState("Tous"); // Par défaut "Tous" pour afficher tous les workshops
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("Pâtisserie"); // Par défaut "Tous" pour afficher tous les workshops
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
@@ -187,24 +207,18 @@ function Dashboard() {
   const filteredWorkshops =
     selectedCategory === "Tous"
       ? workshops
-      : selectedCategory === "Pâtisserie"
-        ? pastry
-        : workshops.filter(
-            (workshop) => workshop.category === selectedCategory
-          );
-
-  const paginatedWorkshops = filteredWorkshops.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+      : workshops.filter((workshop) => workshop.category === selectedCategory);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo(370, 370);
   };
 
-  const handleEdit = (id: number) => {
-    navigate(`/workshop/${id}`);
+  const handleEditPastry = (id: number) => {
+    navigate(`/pastry/${id}/edit`);
+  };
+  const handleEditWorkshop = (id: number) => {
+    navigate(`/workshop/${id}/edit`);
   };
 
   const handleDelete = (id: number) => {
@@ -250,75 +264,25 @@ function Dashboard() {
             </button>
           </div>
 
-          <div className="w-full bg-[#fffcf7] rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-[#481713] mb-4">
-              Liste des Ateliers
-            </h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-[#481713]">
-                <thead className="text-xs uppercase bg-[#461712] text-white">
-                  <tr>
-                    <th className="px-4 py-2 rounded-l-xl">ID</th>
-                    <th className="px-4 py-2">Titre</th>
-                    <th className="px-4 py-2">Date</th>
-                    <th className="px-4 py-2">Prix (€)</th>
-                    <th className="px-4 py-2">Places</th>
-                    <th className="px-4 py-2">Catégorie</th>
-                    <th className="px-4 py-2 rounded-r-xl">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedWorkshops.map((workshops) => (
-                    <tr
-                      key={workshops.id}
-                      className="border-b hover:bg-gray-100"
-                    >
-                      <td className="px-4 py-2">{workshops.id}</td>
-                      <td className="px-4 py-2">{workshops.title}</td>
-                      <td className="px-4 py-2">
-                        {"date" in workshops && workshops.date ? workshops.date : "-"}
-                      </td>
-                      <td className="px-4 py-2">
-                        {"price" in workshops && workshops.price ? `${workshops.price}` : "-"}
-                      </td>
-                      <td className="px-4 py-2">
-                        {"places" in workshops && workshops.places ? `${workshops.places}` : "-"}
-                      </td>
-                      <td className="px-4 py-2">
-                        {"category" in workshops && workshops.category ? workshops.category : "Pâtisserie"}
-                      </td>
-                      <td className="px-4 py-2">
-                        <button
-                          onClick={() => handleEdit(workshops.id)}
-                          className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                        >
-                          Modifier
-                        </button>
-                        <button
-                          onClick={() => handleDelete(workshops.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded"
-                        >
-                          Supprimer
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="flex justify-center mt-4">
-              <Pagination
-                totalItems={
-                  selectedCategory === "Pâtisserie"
-                    ? pastry.length
-                    : workshops.length
-                }
-                itemsPerPage={itemsPerPage}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          </div>
+          {selectedCategory === "Pâtisserie" ? (
+            <PastryTable
+              pastries={pastry}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              onEdit={handleEditPastry}
+              onDelete={handleDelete}
+            />
+          ) : (
+            <WorkshopTable
+              workshops={filteredWorkshops}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              onEdit={handleEditWorkshop}
+              onDelete={handleDelete}
+            />
+          )}
         </div>
       </div>
       <Footer />

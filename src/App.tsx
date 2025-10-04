@@ -6,6 +6,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import WorkshopDetails from "./userpages/WorkshopDetails";
 import PastryWeekEnd from "./userpages/PastryWeekEnd";
 import Dashboard from "./adminpages/Dashboard";
+import WorkshopEdit from "./adminpages/WorkshopEdit";
+import PastryEdit from "./adminpages/PastryEdit";
 
 function App() {
   return (
@@ -22,6 +24,22 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/workshop/:id/edit"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <WorkshopEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pastry/:id/edit"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <PastryEdit />
               </ProtectedRoute>
             }
           />
