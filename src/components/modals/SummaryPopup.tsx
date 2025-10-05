@@ -105,7 +105,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       overlayClassName="fixed inset-0 bg-gray-500/50 backdrop-blur-sm z-[60]"
       contentLabel="Reservation Summary"
     >
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 relative">
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-bold text-[#481713] mb-2">
             Résumé de la réservation

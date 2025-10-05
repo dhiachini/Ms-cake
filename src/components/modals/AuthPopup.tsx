@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
 import MsIcon from "../../assets/icons/MsIconBlack";
+import Swal from "sweetalert2"; // Importer uniquement sweetalert2
+import APIBackend from "../../utils/APIBackend";
 
 interface AuthPopupProps {
   isOpen: boolean;
@@ -11,14 +13,17 @@ interface AuthPopupProps {
 
 const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
   const [authType, setAuthType] = useState<"signin" | "signup">("signin");
-  const [formData, setFormData] = useState({
+  const initialForm = {
     email: "",
     phone: "",
     birthday: "",
     password: "",
     confirmPassword: "",
     name: "",
-  });
+    surname: "",
+  };
+  const [formData, setFormData] = useState(initialForm);
+  const [error, setError] = useState<string | null>(null);
 
   // Blocage correct du scroll du body
   useEffect(() => {
@@ -38,6 +43,14 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
         document.body.style.overflow = "";
         window.scrollTo(0, scrollY);
       };
+    }
+  }, [isOpen]);
+
+  // Réinitialiser les inputs et erreurs lorsque la popup se ferme
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData(initialForm);
+      setError(null);
     }
   }, [isOpen]);
 
@@ -67,11 +80,101 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", { authType, ...formData });
-    if (formData.email) onClose(formData.email);
-    else onClose();
+    setError(null);
+
+    if (authType === "signup") {
+      if (formData.password !== formData.confirmPassword) {
+        setError("Les mots de passe ne correspondent pas.");
+        return;
+      }
+
+      const registerData = {
+        password: formData.password,
+        email: formData.email,
+        firstname: formData.name,
+        lastname: formData.surname,
+        phoneNumber: formData.phone.replace(/\s/g, ""), // Supprime les espaces
+        datenaissance: formData.birthday,
+      };
+
+      try {
+        const response = await APIBackend.post("/auth/register", registerData);
+        console.log("Registration successful:", response);
+        // Afficher une alerte de succès avec SweetAlert2
+        await Swal.fire({
+          icon: "success",
+          title: "Inscription réussie !",
+          text: "Vous pouvez maintenant vous connecter.",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "bg-[#461712] text-white px-4 py-2 rounded",
+          },
+        });
+        // Après validation, ouvrir le formulaire de connexion (signin)
+        setAuthType("signin");
+        onSwitch("signin");
+        // Conserver l'email pour la connexion et réinitialiser les champs de signup
+        setFormData((prev) => ({
+          ...prev,
+          password: "",
+          confirmPassword: "",
+          name: "",
+          surname: "",
+        }));
+        setError(null);
+      } catch (err) {
+        setError(
+          "Erreur lors de l'inscription. Vérifiez vos informations ou réessayez."
+        );
+        console.error("Registration error:", err);
+      }
+    } else {
+      const loginData = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      try {
+        // APIBackend may return either the full axios response or the response body
+        const resp: any = await APIBackend.post("/auth/login", loginData);
+        const token = resp?.token ?? resp?.data?.token;
+        if (token) {
+          localStorage.setItem("token", token);
+        } else {
+          // If no token returned, ensure no stale token remains
+          localStorage.removeItem("token");
+          console.warn("Login response did not include a token:", resp);
+        }
+
+        // save firstname from response (support both resp.user.firstname and resp.data.user.firstname)
+        const firstname = resp?.user?.firstname ?? resp?.data?.user?.firstname;
+        if (firstname) {
+          localStorage.setItem("firstname", firstname);
+        } else {
+          localStorage.removeItem("firstname");
+        }
+
+        await Swal.fire({
+          icon: "success",
+          title: "Connexion réussie !",
+          text: "Vous êtes maintenant connecté.",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "bg-[#461712] text-white px-4 py-2 rounded",
+          },
+        });
+
+        if (formData.email) onClose(formData.email);
+        else onClose();
+      } catch (err) {
+        setError(
+          "Erreur lors de la connexion. Vérifiez vos identifiants ou réessayez."
+        );
+        console.error("Login error:", err);
+      }
+    }
   };
 
   Modal.setAppElement("#root");
@@ -155,7 +258,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
                 </div>
                 <div>
                   <label className="block text-[#481713] font-semibold mb-2">
-                    Nom et prénom
+                    Nom
                   </label>
                   <input
                     type="text"
@@ -164,9 +267,42 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
                     onChange={handleInputChange}
                     required
                     className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-                    placeholder="Votre nom et prénom"
+                    placeholder="Votre nom"
                   />
                 </div>
+              </div>
+              <div className="md:grid md:grid-cols-2 md:gap-4 space-y-4 md:space-y-0">
+                <div>
+                  <label className="block text-[#481713] font-semibold mb-2">
+                    Prénom
+                  </label>
+                  <input
+                    type="text"
+                    name="surname"
+                    value={formData.surname}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                    placeholder="Votre prénom"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#481713] font-semibold mb-2">
+                    Téléphone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                    placeholder="06 12 34 56 78"
+                    pattern="[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}"
+                    title="Format attendu : 06 12 34 56 78"
+                  />
+                </div>
+                <div></div>
               </div>
 
               <div className="md:grid md:grid-cols-2 md:gap-4 space-y-4 md:space-y-0">
@@ -203,22 +339,6 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
               <div className="md:grid md:grid-cols-2 md:gap-4 space-y-4 md:space-y-0">
                 <div>
                   <label className="block text-[#481713] font-semibold mb-2">
-                    Téléphone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-                    placeholder="06 12 34 56 78"
-                    pattern="[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}"
-                    title="Format attendu : 06 12 34 56 78"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#481713] font-semibold mb-2">
                     Date d'anniversaire
                   </label>
                   <input
@@ -233,6 +353,8 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
               </div>
             </>
           )}
+
+          {error && <div className="text-red-500 text-center">{error}</div>}
 
           <div className="flex justify-center mb-4">
             <button

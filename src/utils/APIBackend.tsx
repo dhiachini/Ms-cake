@@ -21,7 +21,7 @@ APIBackend.interceptors.request.use(
 );
 
 APIBackend.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   (error) => Promise.reject(error)
 );
 

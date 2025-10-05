@@ -1,7 +1,7 @@
 import MsIcon from "../assets/icons/MsIconBlack";
 import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthPopup from "./modals/AuthPopup";
 import { useAuth } from "../AuthContext";
 
@@ -10,6 +10,7 @@ function Navbar() {
   const location = useLocation();
   const [isAuthOpen, setIsAuthOpen] = useState(false); // State for popup visibility
   const [, setAuthType] = useState<"signin" | "signup">("signin"); // State for auth type
+  const [firstname, setFirstname] = useState<string | null>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -22,12 +23,25 @@ function Navbar() {
 
   const closeAuth = () => {
     setIsAuthOpen(false);
+    // refresh firstname after popup closes (in case it was set during login)
+    setFirstname(localStorage.getItem("firstname"));
   };
 
   const switchAuth = (type: "signin" | "signup") => {
     setAuthType(type);
   };
-  const { status } = useAuth();
+  const { status, /*logout*/ } = useAuth();
+
+  useEffect(() => {
+    setFirstname(localStorage.getItem("firstname"));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("firstname");
+    setFirstname(null);
+    //logout();
+  };
   return (
     <nav className="relative bg-[#fbf2eb]">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -121,14 +135,29 @@ function Navbar() {
 
           {/* Icons on the right */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 gap-3">
-            <button
-              type="button"
-              onClick={() => openAuth("signin")} // Trigger popup on click
-              className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
-            >
-              <span className="sr-only">View profile</span>
-              <UserRound className="h-6 w-6" aria-hidden="true" />
-            </button>
+            {firstname ? (
+              <div className="hidden md:flex items-center gap-2">
+                <span className="relative rounded-full p-1 text-black">
+                  Bonjour, {firstname} |
+                </span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                >
+                  Se déconnecter
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => openAuth("signin")} // Trigger popup on click
+                className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+              >
+                <span className="sr-only">View profile</span>
+                <UserRound className="h-6 w-6" aria-hidden="true" />
+              </button>
+            )}
             <button
               type="button"
               className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
@@ -146,6 +175,12 @@ function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
+          {/* Bonjour, {firstname} en haut du menu mobile */}
+          {firstname && (
+            <div className="px-3 py-2 text-base font-medium text-black">
+              Bonjour, {firstname}
+            </div>
+          )}
           {status === "admin" && (
             <Link
               to="/dashboard"
@@ -196,6 +231,16 @@ function Navbar() {
           >
             E-book
           </a>
+          {/* Se déconnecter en bas du menu mobile */}
+          {firstname && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="block w-full rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
+            >
+              Se déconnecter
+            </button>
+          )}
         </div>
       </div>
 
