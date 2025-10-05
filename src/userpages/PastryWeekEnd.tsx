@@ -8,6 +8,7 @@ import patisserie1 from "../assets/images/patisserie-week-1.jpg";
 import patisserie2 from "../assets/images/patisserie-week-2.jpg";
 import patisserie3 from "../assets/images/patisserie-week-3.jpg";
 import patisserie4 from "../assets/images/patisserie-week-4.jpg";
+import APIBackend from "../utils/APIBackend";
 
 function PastryWeekEnd() {
   const workshops = [
@@ -77,6 +78,15 @@ function PastryWeekEnd() {
 
   const closeCustomOrder = () => {
     setIsCustomOrderOpen(false);
+  };
+  const getData = () => {
+    APIBackend.get("/workshops")
+      .then((response: { data: any; }) => {
+        console.log(response.data);
+      })
+      .catch((error: any) => {
+        console.error("There was an error!", error);
+      });
   };
 
   return (
