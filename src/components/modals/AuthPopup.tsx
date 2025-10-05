@@ -131,9 +131,49 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
         console.error("Registration error:", err);
       }
     } else {
-      console.log("Form submitted (signin):", { authType, ...formData });
-      if (formData.email) onClose(formData.email);
-      else onClose();
+      const loginData = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      try {
+        // APIBackend may return either the full axios response or the response body
+        const resp: any = await APIBackend.post("/auth/login", loginData);
+        const token = resp?.token ?? resp?.data?.token;
+        if (token) {
+          localStorage.setItem("token", token);
+        } else {
+          // If no token returned, ensure no stale token remains
+          localStorage.removeItem("token");
+          console.warn("Login response did not include a token:", resp);
+        }
+
+        // save firstname from response (support both resp.user.firstname and resp.data.user.firstname)
+        const firstname = resp?.user?.firstname ?? resp?.data?.user?.firstname;
+        if (firstname) {
+          localStorage.setItem("firstname", firstname);
+        } else {
+          localStorage.removeItem("firstname");
+        }
+
+        await Swal.fire({
+          icon: "success",
+          title: "Connexion réussie !",
+          text: "Vous êtes maintenant connecté.",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "bg-[#461712] text-white px-4 py-2 rounded",
+          },
+        });
+
+        if (formData.email) onClose(formData.email);
+        else onClose();
+      } catch (err) {
+        setError(
+          "Erreur lors de la connexion. Vérifiez vos identifiants ou réessayez."
+        );
+        console.error("Login error:", err);
+      }
     }
   };
 
