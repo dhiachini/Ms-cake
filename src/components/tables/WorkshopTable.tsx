@@ -1,13 +1,14 @@
 import Pagination from "../Pagination";
 
 interface Workshop {
-  id: number;
-  title: string;
-  date?: string;
-  price?: number;
-  places?: number;
-  category?: string;
-  image?: string;
+  _id: number;
+  Title: string;
+  Date: string;
+  Prix: number;
+  NbPlaces: number;
+  ImageUrl: string;
+  Categories: string;
+  RemainingPlaces: number;
 }
 
 interface WorkshopTableProps {
@@ -46,41 +47,43 @@ function WorkshopTable({
         <table className="w-full text-sm text-left text-[#481713]">
           <thead className="text-xs uppercase bg-[#461712] text-white">
             <tr>
-              <th className="px-4 py-2 rounded-l-xl">ID</th>
               <th className="px-4 py-2">Titre</th>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Prix (€)</th>
               <th className="px-4 py-2">Places</th>
+              <th className="px-4 py-2">Places restantes</th>
               <th className="px-4 py-2">Catégorie</th>
               <th className="px-4 py-2 rounded-r-xl">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedWorkshops.map((workshop) => (
-              <tr key={workshop.id} className="border-b hover:bg-gray-100">
-                <td className="px-4 py-2">{workshop.id}</td>
-                <td className="px-4 py-2">{workshop.title}</td>
+              <tr key={workshop._id} className="border-b hover:bg-gray-100">
+                <td className="px-4 py-2">{workshop.Title}</td>
                 <td className="px-4 py-2">
-                  {workshop.date ? workshop.date : "-"}
+                  {workshop.Date ? new Date(workshop.Date).getDate() : "-"}
                 </td>
                 <td className="px-4 py-2">
-                  {workshop.price !== undefined ? `${workshop.price}` : "-"}
+                  {workshop.Prix !== undefined ? `${parseFloat(workshop.Prix.toString()).toFixed(3)}` : "-"}
                 </td>
                 <td className="px-4 py-2">
-                  {workshop.places !== undefined ? `${workshop.places}` : "-"}
+                  {workshop.NbPlaces !== undefined ? `${workshop.NbPlaces}` : "-"}
                 </td>
                 <td className="px-4 py-2">
-                  {workshop.category ? workshop.category : "-"}
+                  {workshop.NbPlaces !== undefined ? `${workshop.RemainingPlaces}` : "-"}
+                </td>
+                <td className="px-4 py-2">
+                  {workshop.Categories ? workshop.Categories : "-"}
                 </td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => onEdit(workshop.id)}
+                    onClick={() => onEdit(workshop._id)}
                     className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
                   >
                     Modifier
                   </button>
                   <button
-                    onClick={() => onDelete(workshop.id)}
+                    onClick={() => onDelete(workshop._id)}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                   >
                     Supprimer

@@ -1,10 +1,10 @@
 import Pagination from "../Pagination";
 
 interface Pastry {
-  id: number;
-  title: string;
-  description: string;
-  image?: string;
+  _id: number;
+  Title: string;
+  Description: string;
+  ImageURL?: string;
 }
 
 interface PastryTableProps {
@@ -43,7 +43,6 @@ function PastryTable({
         <table className="w-full text-sm text-left text-[#481713]">
           <thead className="text-xs uppercase bg-[#461712] text-white">
             <tr>
-              <th className="px-4 py-2 rounded-l-xl">ID</th>
               <th className="px-4 py-2">Titre</th>
               <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2 rounded-r-xl">Actions</th>
@@ -51,19 +50,18 @@ function PastryTable({
           </thead>
           <tbody>
             {paginatedPastries.map((pastry) => (
-              <tr key={pastry.id} className="border-b hover:bg-gray-100">
-                <td className="px-4 py-2">{pastry.id}</td>
-                <td className="px-4 py-2">{pastry.title}</td>
-                <td className="px-4 py-2">{pastry.description}</td>
+              <tr key={pastry._id} className="border-b hover:bg-gray-100">
+                <td className="px-4 py-2">{pastry.Title}</td>
+                <td className="px-4 py-2">{pastry.Description}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => onEdit(pastry.id)}
+                    onClick={() => onEdit(pastry._id)}
                     className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
                   >
                     Modifier
                   </button>
                   <button
-                    onClick={() => onDelete(pastry.id)}
+                    onClick={() => onDelete(pastry._id)}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                   >
                     Supprimer

@@ -5,22 +5,19 @@ import Footer from "../components/Footer";
 import AuthPopup from "../components/modals/AuthPopup";
 import SummaryPopup from "../components/modals/SummaryPopup";
 import ConfirmationPopup from "../components/modals/ConfirmationPopup";
-import workshop1 from "../assets/images/Workshop-image-1.jpg";
-import workshop2 from "../assets/images/Workshop-image-2.jpg";
-import workshop3 from "../assets/images/Workshop-image-3.jpg";
-import workshop4 from "../assets/images/Workshop-image-4.jpg";
-import workshop5 from "../assets/images/Workshop-image-5.jpg";
-import workshop6 from "../assets/images/Workshop-image-6.jpg";
-import workshop7 from "../assets/images/Workshop-image-7.jpg";
+
+import APIBackend from "../utils/APIBackend";
+import ServerAdress from "../utils/ServerAdress";
 
 interface Workshop {
-  id: string;
-  title: string;
-  date: string;
-  price: number;
-  places: number;
-  image: string;
-  category: string;
+  _id: number;
+  Title: string;
+  Date: string;
+  Prix: number;
+  NbPlaces: number;
+  ImageUrl: string;
+  Categories: string;
+  RemainingPlaces: number;
 }
 
 const WorkshopEdit = () => {
@@ -33,71 +30,7 @@ const WorkshopEdit = () => {
   }, []);
 
   // Mock data (replace with API call in a real app)
-  const initialWorkshops: Workshop[] = [
-    {
-      id: "1",
-      title: "Masterclass Saint-Honoré",
-      date: "Samedi 12 Juillet",
-      price: 420,
-      places: 3,
-      image: workshop1,
-      category: "Pâtisserie",
-    },
-    {
-      id: "2",
-      title: "Masterclass Éclair",
-      date: "Dimanche 13 Juillet",
-      price: 80,
-      places: 2,
-      image: workshop2,
-      category: "Pâtisserie",
-    },
-    {
-      id: "3",
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop3,
-      category: "Pâtisserie",
-    },
-    {
-      id: "4",
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop4,
-      category: "Pâtisserie",
-    },
-    {
-      id: "5",
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop5,
-      category: "Pâtisserie",
-    },
-    {
-      id: "6",
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop6,
-      category: "Cake design",
-    },
-    {
-      id: "7",
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop7,
-      category: "Cake design",
-    },
-  ];
+
 
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -105,14 +38,25 @@ const WorkshopEdit = () => {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   useEffect(() => {
-    const foundWorkshop = initialWorkshops.find((w) => w.id === id);
-    if (foundWorkshop) {
-      setWorkshop(foundWorkshop);
-    }
+    APIBackend.get(`/Atelier/GetByID/${id}`)
+      .then((response) => {
+        setWorkshop(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the pastry!", error);
+      });
   }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (workshop) {
+      if (workshop.Date && e.target.name === "Date") {
+        const selectedDate = new Date(e.target.value);
+        if (isNaN(selectedDate.getTime())) {
+          // Invalid date, do not update state
+          return;
+        }        
+        e.target.value = selectedDate.toISOString().split("T")[0];
+      }
       setWorkshop({
         ...workshop,
         [e.target.name]: e.target.value,
@@ -122,9 +66,15 @@ const WorkshopEdit = () => {
 
   const handleSave = () => {
     if (workshop) {
-      console.log("Workshop updated:", workshop); // Replace with API call
-      alert("Atelier mis à jour avec succès !");
-      navigate("/dashboard"); // Redirect to dashboard after save
+      APIBackend.put(`/Atelier/Update/${id}`, workshop)
+        .then((response) => {
+          console.log("Atelier updated successfully:", response.data);
+          navigate("/dashboard"); // Redirect to dashboard after save
+        })
+        .catch((error) => {
+          console.error("There was an error updating the pastry!", error);
+        });
+
     }
   };
 
@@ -143,7 +93,7 @@ const WorkshopEdit = () => {
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="p-6">
             <h1 className="text-2xl md:text-3xl font-bold text-[#481713] mb-4">
-              Modifier l'atelier: {workshop.title}
+              Modifier l'atelier: {workshop.Title}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
@@ -152,8 +102,8 @@ const WorkshopEdit = () => {
                 </label>
                 <input
                   type="text"
-                  name="title"
-                  value={workshop.title}
+                  name="Title"
+                  value={workshop.Title}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 />
@@ -163,9 +113,9 @@ const WorkshopEdit = () => {
                   Date
                 </label>
                 <input
-                  type="text"
-                  name="date"
-                  value={workshop.date}
+                  type="date"
+                  name="Date"
+                  value={workshop.Date ? new Date(workshop.Date).toISOString().split("T")[0] : ""}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 />
@@ -176,8 +126,8 @@ const WorkshopEdit = () => {
                 </label>
                 <input
                   type="number"
-                  name="price"
-                  value={workshop.price}
+                  name="Prix"
+                  value={workshop.Prix}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 />
@@ -188,8 +138,8 @@ const WorkshopEdit = () => {
                 </label>
                 <input
                   type="number"
-                  name="places"
-                  value={workshop.places}
+                  name="NbPlaces"
+                  value={workshop.NbPlaces}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 />
@@ -199,8 +149,8 @@ const WorkshopEdit = () => {
                   Catégorie
                 </label>
                 <select
-                  name="category"
-                  value={workshop.category}
+                  name="Categories"
+                  value={workshop.Categories}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 >
@@ -215,7 +165,7 @@ const WorkshopEdit = () => {
                 <input
                   type="text"
                   name="image"
-                  value={workshop.image}
+                  value={ServerAdress + workshop.ImageUrl}
                   onChange={handleChange}
                   className="w-full p-2 border border-[#461712] rounded-lg focus:outline-none"
                 />
@@ -236,7 +186,7 @@ const WorkshopEdit = () => {
       <AuthPopup
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
-        onSwitch={() => {}}
+        onSwitch={() => { }}
       />
       <SummaryPopup
         isOpen={isSummaryOpen}
@@ -248,8 +198,8 @@ const WorkshopEdit = () => {
       <ConfirmationPopup
         isOpen={isConfirmationOpen}
         onClose={() => setIsConfirmationOpen(false)}
-        onLogin={() => {}}
-        onGuest={() => {}}
+        onLogin={() => { }}
+        onGuest={() => { }}
       />
     </div>
   );

@@ -3,13 +3,14 @@ import Modal from "react-modal";
 import { X } from "lucide-react";
 
 interface Workshop {
-  id: string;
-  title: string;
-  date: string;
-  price: number;
-  places: number;
-  image: string;
-  category: string;
+  _id: number;
+  Title: string;
+  Date: string;
+  Prix: number;
+  NbPlaces: number;
+  ImageUrl: string;
+  Categories: string;
+  RemainingPlaces: number;
 }
 
 interface SummaryPopupProps {
@@ -68,8 +69,8 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
     const { name, value } = e.target;
     if (name === "places") {
       const numValue = parseInt(value) || 1;
-      if (numValue > workshop.places) {
-        setFormData((prev) => ({ ...prev, places: workshop.places }));
+      if (numValue > workshop.NbPlaces) {
+        setFormData((prev) => ({ ...prev, places: workshop.NbPlaces }));
       } else if (numValue < 1) {
         setFormData((prev) => ({ ...prev, places: 1 }));
       } else {
@@ -80,7 +81,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
     }
   };
 
-  const totalPrice = workshop.price * formData.places;
+  const totalPrice = workshop.Prix * formData.places;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,7 +182,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.places}
                 onChange={handleInputChange}
                 min="1"
-                max={workshop.places}
+                max={workshop.NbPlaces}
                 className="w-24 p-2 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
               />
             </div>

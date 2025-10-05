@@ -1,124 +1,41 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import workshopBreadcrumb from "../assets/images/workshop-breadcrumb.png";
-import workshop1 from "../assets/images/Workshop-image-1.jpg";
-import workshop2 from "../assets/images/Workshop-image-2.jpg";
-import workshop3 from "../assets/images/Workshop-image-3.jpg";
-import workshop4 from "../assets/images/Workshop-image-4.jpg";
-import workshop5 from "../assets/images/Workshop-image-5.jpg";
-import workshop6 from "../assets/images/Workshop-image-6.jpg";
-import workshop7 from "../assets/images/Workshop-image-7.jpg";
+import APIBackend from "../utils/APIBackend";
+import ServerAdress from "../utils/ServerAdress";
+
 
 function WorkShops() {
-  const workshops = [
-    {
-      id: 1,
-      title: "Masterclass Saint-Honoré",
-      date: "Samedi 12 Juillet",
-      price: 420,
-      places: 3,
-      image: workshop1,
-      category: "Pâtisserie",
-    },
-    {
-      id: 2,
-      title: "Masterclass Éclair",
-      date: "Dimanche 13 Juillet",
-      price: 80,
-      places: 2,
-      image: workshop2,
-      category: "Pâtisserie",
-    },
-    {
-      id: 3,
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop3,
-      category: "Pâtisserie",
-    },
-    {
-      id: 4,
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop4,
-      category: "Pâtisserie",
-    },
-    {
-      id: 5,
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop5,
-      category: "Pâtisserie",
-    },
-    {
-      id: 6,
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop6,
-      category: "Cake design",
-    },
-    {
-      id: 7,
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop7,
-      category: "Cake design",
-    },
-    {
-      id: 8,
-      title: "Masterclass Macaron",
-      date: "Lundi 14 Juillet",
-      price: 80,
-      places: 4,
-      image: workshop5,
-      category: "Pâtisserie",
-    },
-    {
-      id: 8,
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop6,
-      category: "Cake design",
-    },
-    {
-      id: 9,
-      title: "Masterclass Tarte",
-      date: "Mardi 15 Juillet",
-      price: 80,
-      places: 1,
-      image: workshop7,
-      category: "Cake design",
-    },
-  ];
 
   const [selectedCategory, setSelectedCategory] = useState("Pâtisserie");
+  const [data,setData] = useState<any[]>([]);
+  const [filteredWorkshops, setFilteredWorkshops] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const navigate = useNavigate(); // Call useNavigate at the top level
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    setFilteredWorkshops(data.filter((workshop: { Categories: string; }) => workshop.Categories === category));
     setCurrentPage(1); // Reset to first page when category changes
   };
+  useEffect(() => {
+    getData();
+  }, [])
+  const getData = () => {
+    APIBackend.get("/Atelier/GetAll")
+      .then((response) => {
+        setData(response.data);
+        setFilteredWorkshops(response.data.filter((workshop: { Categories: string; }) => workshop.Categories === selectedCategory));
 
-  const filteredWorkshops = workshops.filter(
-    (workshop) => workshop.category === selectedCategory
-  );
+      })
+      .catch((error: any) => {
+        console.error("There was an error!", error);
+      });
+  };
   const paginatedWorkshops = filteredWorkshops.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -144,21 +61,19 @@ function WorkShops() {
         <div className="w-full h-full p-8 bg-[#fdf5f2]">
           <div className="w-full flex flex-row justify-center items-center mb-8 gap-4">
             <button
-              className={`bg-[#461712] ${
-                selectedCategory === "Pâtisserie"
-                  ? "bg-[#b06c74] text-[#faf4e6]"
-                  : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
-              } text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none`}
+              className={`bg-[#461712] ${selectedCategory === "Pâtisserie"
+                ? "bg-[#b06c74] text-[#faf4e6]"
+                : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
+                } text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none`}
               onClick={() => handleCategoryClick("Pâtisserie")}
             >
               Pâtisserie
             </button>
             <button
-              className={`bg-[#461712] ${
-                selectedCategory === "Cake design"
-                  ? "bg-[#b06c74] text-[#faf4e6]"
-                  : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
-              } text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none`}
+              className={`bg-[#461712] ${selectedCategory === "Cake design"
+                ? "bg-[#b06c74] text-[#faf4e6]"
+                : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
+                } text-white px-3 py-1 h-[50px] w-[180px] rounded-3xl cursor-pointer border-0 outline-none`}
               onClick={() => handleCategoryClick("Cake design")}
             >
               Cake design
@@ -172,41 +87,47 @@ function WorkShops() {
                   className="max-w-full bg-[#fffcf7] rounded-lg"
                 >
                   <div className="max-w-sm rounded-lg">
-                    <div className="max-w-4xl max-h-96 rounded-lg overflow-hidden">
+                    <div className="w-full max-w-sm rounded-lg overflow-hidden">
                       <a href="#">
-                        <img
-                          className="w-full h-full object-center"
-                          src={workshop.image}
-                          alt={workshop.title}
-                        />
+                        <div className="w-full h-64 overflow-hidden rounded-lg">
+                          <img
+                            src={ServerAdress + workshop.ImageUrl}
+                            alt={workshop.Title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       </a>
                     </div>
 
                     <div className="p-5 ">
                       <a href="#">
                         <h5 className="mb-2 text-base sm:text-lg md:text-2xl font-normal tracking-tight text-[#481713]">
-                          {workshop.title}
+                          {workshop.Title}
                         </h5>
                       </a>
 
                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 md:gap-0 mb-2">
                         <p className="text-sm sm:text-base font-normal text-[#481713]">
-                          {workshop.date}
+                          {new Date(workshop.Date).toLocaleDateString("fr-FR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          })}
                         </p>
                         <p className="text-sm sm:text-base font-normal text-[#481713]">
-                          {workshop.price} €
+                          {workshop.Prix} €
                         </p>
                       </div>
 
-                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 md:gap-0">
+                      <div className="flex justify-between items-center flex-wrap gap-2">
                         <p className="text-sm sm:text-base font-normal text-[#481713]">
-                          {workshop.places} Places restantes
+                          {workshop.RemainingPlaces} Places restantes
                         </p>
                         <button
-                          onClick={() => navigate(`/workshop/${workshop.id}`)}
+                          onClick={() => navigate(`/workshop/${workshop._id}`)}
                           className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white 
-             px-2 py-1 h-[35px] w-[120px] sm:h-[50px] sm:w-[180px] 
-             text-xs sm:text-base rounded-3xl cursor-pointer border-0 outline-none"
+               px-2 py-1 h-[35px] w-[120px] sm:h-[50px] sm:w-[180px] 
+               text-xs sm:text-base rounded-3xl cursor-pointer border-0 outline-none"
                         >
                           Reserver ma place
                         </button>

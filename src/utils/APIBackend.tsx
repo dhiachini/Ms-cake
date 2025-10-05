@@ -2,7 +2,7 @@ import axios, { type AxiosInstance } from "axios";
 
 
 const APIBackend: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://api.example.com",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5050",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -21,7 +21,7 @@ APIBackend.interceptors.request.use(
 );
 
 APIBackend.interceptors.response.use(
-  (response) => response.data,
+  (response) => response,
   (error) => Promise.reject(error)
 );
 
