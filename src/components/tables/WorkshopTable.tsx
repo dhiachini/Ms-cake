@@ -28,7 +28,7 @@ function WorkshopTable({
   onEdit,
   onDelete,
 }: WorkshopTableProps) {
-  const paginatedWorkshops = workshops.slice(
+  const paginatedWorkshops = workshops?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -57,7 +57,7 @@ function WorkshopTable({
             </tr>
           </thead>
           <tbody>
-            {paginatedWorkshops.map((workshop) => (
+            {paginatedWorkshops?.map((workshop) => (
               <tr key={workshop._id} className="border-b hover:bg-gray-100">
                 <td className="px-4 py-2">{workshop.Title}</td>
                 <td className="px-4 py-2">
@@ -96,7 +96,7 @@ function WorkshopTable({
       </div>
       <div className="flex justify-center mt-4">
         <Pagination
-          totalItems={workshops.length}
+          totalItems={workshops?.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={onPageChange}

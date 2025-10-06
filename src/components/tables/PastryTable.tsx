@@ -24,10 +24,11 @@ function PastryTable({
   onEdit,
   onDelete,
 }: PastryTableProps) {
-  const paginatedPastries = pastries.slice(
+  const paginatedPastries = pastries?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+console.log(pastries);
 
   return (
     <div className="w-full bg-[#fffcf7] rounded-lg p-6">
@@ -49,7 +50,7 @@ function PastryTable({
             </tr>
           </thead>
           <tbody>
-            {paginatedPastries.map((pastry) => (
+            {paginatedPastries?.map((pastry) => (
               <tr key={pastry._id} className="border-b hover:bg-gray-100">
                 <td className="px-4 py-2">{pastry.Title}</td>
                 <td className="px-4 py-2">{pastry.Description}</td>
@@ -74,7 +75,7 @@ function PastryTable({
       </div>
       <div className="flex justify-center mt-4">
         <Pagination
-          totalItems={pastries.length}
+          totalItems={pastries?.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={onPageChange}

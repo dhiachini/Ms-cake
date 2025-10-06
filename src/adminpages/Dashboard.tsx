@@ -59,7 +59,7 @@ function Dashboard() {
   const filteredWorkshops =
     selectedCategory === "Tous"
       ? workshops
-      : workshops.filter((workshop) => workshop.Categories === selectedCategory);
+      : workshops?.filter((workshop) => workshop.Categories === selectedCategory);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
