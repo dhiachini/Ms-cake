@@ -6,8 +6,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import WorkshopDetails from "./userpages/WorkshopDetails";
 import PastryWeekEnd from "./userpages/PastryWeekEnd";
 import Dashboard from "./adminpages/Dashboard";
-import WorkshopEdit from "./adminpages/WorkshopEdit";
+import WorkshopEdit from "./adminpages/EditAtelier";
 import PastryEdit from "./adminpages/PastryEdit";
+import AddPastry from "./adminpages/AddPastry";
+import AddAtelier from "./adminpages/AddAtelier";
+import WorkshopDetailsReserve from "./userpages/WorkshopDetailsReserve";
 
 function App() {
   return (
@@ -17,6 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/workshops" element={<WorkShops />} />
           <Route path="/workshop/:id" element={<WorkshopDetails />} />
+          <Route path="/workshopreserve/:id" element={<WorkshopDetailsReserve />} />
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
           {/* Example admin route: */}
           <Route
@@ -40,6 +44,22 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <PastryEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addpastry"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AddPastry />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addworkshop"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AddAtelier />
               </ProtectedRoute>
             }
           />

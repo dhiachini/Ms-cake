@@ -8,13 +8,12 @@ import { useAuth } from "../AuthContext";
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [isAuthOpen, setIsAuthOpen] = useState(false); // State for popup visibility
-  const [, setAuthType] = useState<"signin" | "signup">("signin"); // State for auth type
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [, setAuthType] = useState<"signin" | "signup">("signin");
   const [firstname, setFirstname] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null); // ✅ état pour le rôle
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const openAuth = (type: "signin" | "signup") => {
     setAuthType(type);
@@ -23,30 +22,31 @@ function Navbar() {
 
   const closeAuth = () => {
     setIsAuthOpen(false);
-    // refresh firstname after popup closes (in case it was set during login)
     setFirstname(localStorage.getItem("firstname"));
+    setRole(localStorage.getItem("role")); // refresh rôle après login
   };
 
-  const switchAuth = (type: "signin" | "signup") => {
-    setAuthType(type);
-  };
-  const { status, /*logout*/ } = useAuth();
+  const switchAuth = (type: "signin" | "signup") => setAuthType(type);
+  const { status } = useAuth();
 
   useEffect(() => {
     setFirstname(localStorage.getItem("firstname"));
+    setRole(localStorage.getItem("role")); // initialise le rôle au chargement
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("firstname");
+    localStorage.setItem("role", "visiteur"); // supprime le rôle
     setFirstname(null);
-    //logout();
+    setRole(null);
   };
+
   return (
     <nav className="relative bg-[#fbf2eb]">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-20 items-center justify-between">
-          {/* Mobile menu button (visible on small screens) */}
+          {/* Mobile menu button */}
           <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
             <button
               type="button"
@@ -57,14 +57,14 @@ function Navbar() {
             >
               <span className="sr-only">Open main menu</span>
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6" aria-hidden="true" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
 
-          {/* Logo / Icon centered on mobile, left-aligned on md+ */}
+          {/* Logo */}
           <div className="flex flex-shrink-0 items-center w-full justify-center md:w-auto md:justify-start">
             <div className="flex shrink-0 items-center">
               <Link to="/">
@@ -73,15 +73,14 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Menu centered (hidden on mobile, visible on md+) */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex justify-center md:items-center">
             <div className="flex space-x-4">
-              {status === "admin" && (
+              {role === "admin" && ( // ✅ n'affiche que si admin
                 <Link
                   to="/dashboard"
                   className={`rounded-md px-3 py-2 text-sm font-medium ${
-                    location.pathname === "/dashboard" ||
-                    location.pathname.startsWith("/workshop/")
+                    location.pathname === "/dashboard"
                       ? "bg-[#b06c74]/10 text-[#b06c74]"
                       : "text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
                   }`}
@@ -89,6 +88,7 @@ function Navbar() {
                   Tableau de bord administrateur
                 </Link>
               )}
+
               <Link
                 to="/pastryweekend"
                 className={`rounded-md px-3 py-2 text-sm font-medium ${
@@ -99,7 +99,6 @@ function Navbar() {
               >
                 Patisseries
               </Link>
-
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
@@ -123,7 +122,6 @@ function Navbar() {
               >
                 Ateliers
               </Link>
-
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
@@ -133,7 +131,7 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Icons on the right */}
+          {/* Icons */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 gap-3">
             {firstname ? (
               <div className="hidden md:flex items-center gap-2">
@@ -151,11 +149,11 @@ function Navbar() {
             ) : (
               <button
                 type="button"
-                onClick={() => openAuth("signin")} // Trigger popup on click
+                onClick={() => openAuth("signin")}
                 className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
               >
                 <span className="sr-only">View profile</span>
-                <UserRound className="h-6 w-6" aria-hidden="true" />
+                <UserRound className="h-6 w-6" />
               </button>
             )}
             <button
@@ -163,25 +161,24 @@ function Navbar() {
               className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
             >
               <span className="sr-only">View cart</span>
-              <ShoppingCart className="h-6 w-6" aria-hidden="true" />
+              <ShoppingCart className="h-6 w-6" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu (visible when toggled on small screens) */}
+      {/* Mobile menu */}
       <div
         className={`md:hidden ${isMobileMenuOpen ? "block" : "hidden"}`}
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
-          {/* Bonjour, {firstname} en haut du menu mobile */}
           {firstname && (
             <div className="px-3 py-2 text-base font-medium text-black">
               Bonjour, {firstname}
             </div>
           )}
-          {status === "admin" && (
+          {role === "admin" && (
             <Link
               to="/dashboard"
               className={`block rounded-md px-3 py-2 text-base font-medium ${
@@ -231,7 +228,6 @@ function Navbar() {
           >
             E-book
           </a>
-          {/* Se déconnecter en bas du menu mobile */}
           {firstname && (
             <button
               type="button"
@@ -244,7 +240,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Auth Popup */}
       <AuthPopup
         isOpen={isAuthOpen}
         onClose={closeAuth}

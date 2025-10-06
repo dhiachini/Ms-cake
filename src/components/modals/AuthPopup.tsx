@@ -156,6 +156,21 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, onSwitch }) => {
           localStorage.removeItem("firstname");
         }
 
+        // save role from response (support multiple possible shapes)
+        const role =
+          resp?.user?.role ?? resp?.data?.user?.role ?? resp?.data?.role ?? resp?.role;
+        if (role) {
+          try {
+            // ensure we store a string
+            const roleStr = typeof role === "string" ? role : JSON.stringify(role);
+            localStorage.setItem("role", roleStr);
+          } catch (e) {
+            console.warn("Could not stringify role for storage:", e);
+          }
+        } else {
+          localStorage.removeItem("role");
+        }
+
         await Swal.fire({
           icon: "success",
           title: "Connexion réussie !",

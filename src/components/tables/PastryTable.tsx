@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 
 interface Pastry {
@@ -36,9 +37,9 @@ console.log(pastries);
         <h2 className="text-2xl font-bold text-[#481713]">
           Liste des Ateliers de Pâtisserie
         </h2>
-        <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <Link to={"/addpastry"}  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
           Ajouter article
-        </button>
+        </Link>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-[#481713]">

@@ -124,7 +124,7 @@ function WorkShops() {
                           {workshop.RemainingPlaces} Places restantes
                         </p>
                         <button
-                          onClick={() => navigate(`/workshop/${workshop._id}`)}
+                          onClick={() => navigate(`/workshopreserve/${workshop._id}`)}
                           className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white 
                px-2 py-1 h-[35px] w-[120px] sm:h-[50px] sm:w-[180px] 
                text-xs sm:text-base rounded-3xl cursor-pointer border-0 outline-none"

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 
 interface Workshop {
@@ -39,9 +40,9 @@ function WorkshopTable({
         <h2 className="text-2xl font-bold text-[#481713] mb-4">
           Liste des Ateliers
         </h2>
-        <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <Link to={"/addworkshop"}  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
           Ajouter atelier
-        </button>
+        </Link>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-[#481713]">
