@@ -128,14 +128,14 @@ const WorkshopDetailsReserve = () => {
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <p className="text-[#481713] font-normal">
-                <span className="font-semibold">Date:</span> {workshop.Date}
+                <span className="font-semibold">Date:</span> {new Date(workshop.Date).toLocaleDateString()}
               </p>
               <p className="text-[#481713] font-normal">
                 <span className="font-semibold">Prix:</span> {workshop.Prix} €
               </p>
               <p className="text-[#481713] font-normal">
                 <span className="font-semibold">Places restantes:</span>{" "}
-                {workshop.NbPlaces}
+                {workshop.RemainingPlaces}
               </p>
               <p className="text-[#481713] font-normal">
                 <span className="font-semibold">Category:</span>{" "}
