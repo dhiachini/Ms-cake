@@ -1,1 +1,1 @@
-export default "http://localhost:5050";
+export default "https://ms-cake-backend.onrender.com";

@@ -2,7 +2,7 @@ import axios, { type AxiosInstance } from "axios";
 
 
 const APIBackend: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5050",
+  baseURL: import.meta.env.VITE_API_URL || "https://ms-cake-backend.onrender.com",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
