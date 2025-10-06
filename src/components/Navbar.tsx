@@ -27,7 +27,7 @@ function Navbar() {
   };
 
   const switchAuth = (type: "signin" | "signup") => setAuthType(type);
-  const { status } = useAuth();
+  useAuth();
 
   useEffect(() => {
     setFirstname(localStorage.getItem("firstname"));
