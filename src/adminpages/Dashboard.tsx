@@ -66,18 +66,15 @@ function Dashboard() {
     window.scrollTo(370, 370);
   };
 
-  const handleEditPastry = (id: number) => {
+  const handleEditPastry = (id: string) => {
     navigate(`/pastry/${id}/edit`);
   };
   const handleEditWorkshop = (id: number) => {
     navigate(`/workshop/${id}/edit`);
   };
 
-  const handleDelete = (id: number) => {
-    if (window.confirm("Voulez-vous vraiment supprimer cet atelier ?")) {
-      console.log(`Atelier ${id} supprimé`);
-    }
-  };
+  // delete handled inside WorkshopTable; pass a refresh callback below
+  
 
   return (
     <div>
@@ -121,7 +118,7 @@ function Dashboard() {
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
               onEdit={handleEditPastry}
-              onDelete={handleDelete}
+              fetchPastries={getDataCake}
             />
           ) : (
             <WorkshopTable
@@ -130,7 +127,7 @@ function Dashboard() {
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
               onEdit={handleEditWorkshop}
-              onDelete={handleDelete}
+              onDelete={getDataAteliers}
             />
           )}
         </div>

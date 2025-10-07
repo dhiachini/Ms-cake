@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import APIBackend from "../../utils/APIBackend";
+import Swal from 'sweetalert2';
+import { useState } from "react";
 
 interface Workshop {
   _id: number;
@@ -18,7 +21,8 @@ interface WorkshopTableProps {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  // onDelete should be a refresh callback (no args) to reload the parent list
+  onDelete: () => void;
 }
 
 function WorkshopTable({
@@ -29,6 +33,7 @@ function WorkshopTable({
   onEdit,
   onDelete,
 }: WorkshopTableProps) {
+  const [loadingId, setLoadingId] = useState<string | number | null>(null);
   const paginatedWorkshops = workshops?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -84,10 +89,47 @@ function WorkshopTable({
                     Modifier
                   </button>
                   <button
-                    onClick={() => onDelete(workshop._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={async () => {
+                      const res = await Swal.fire({
+                        title: 'Êtes-vous sûr ?',
+                        text: "Cette action est irréversible.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Oui, supprimer',
+                        cancelButtonText: 'Annuler',
+                      });
+
+                      if (!res.isConfirmed) return;
+
+                      try {
+                        setLoadingId(workshop._id);
+                        await APIBackend.delete(`Atelier/Delete/${workshop._id}`);
+                        await Swal.fire({
+                          icon: 'success',
+                          title: 'Supprimé',
+                          text: "L'atelier a été supprimé avec succès.",
+                          timer: 1400,
+                          showConfirmButton: false,
+                        });
+                        onDelete();
+                      } catch (err) {
+                        console.error('Erreur suppression atelier:', err);
+                        await Swal.fire({
+                          icon: 'error',
+                          title: 'Erreur',
+                          text: "Une erreur est survenue lors de la suppression.",
+                        });
+                      } finally {
+                        setLoadingId(null);
+                      }
+                    }}
+                    className={`${
+                      loadingId === workshop._id ? 'bg-gray-400' : 'bg-red-500 hover:bg-red-600'
+                    } text-white px-2 py-1 rounded`}
                   >
-                    Supprimer
+                    {loadingId === workshop._id ? 'Suppression...' : 'Supprimer'}
                   </button>
                 </td>
               </tr>

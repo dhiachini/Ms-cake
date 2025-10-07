@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import APIBackend from "../../utils/APIBackend";
+import Swal from 'sweetalert2';
 
 interface Pastry {
-  _id: number;
+  _id: string; // souvent c’est un string en MongoDB
   Title: string;
   Description: string;
   ImageURL?: string;
@@ -13,8 +16,8 @@ interface PastryTableProps {
   currentPage: number;
   itemsPerPage: number;
   onPageChange: (page: number) => void;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  onEdit: (id: string) => void;
+  fetchPastries: () => void; // nouvelle prop pour recharger la liste
 }
 
 function PastryTable({
@@ -23,13 +26,51 @@ function PastryTable({
   itemsPerPage,
   onPageChange,
   onEdit,
-  onDelete,
+  fetchPastries,
 }: PastryTableProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = async (id: string) => {
+    const result = await Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: "Cette action est irréversible.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler',
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+      await APIBackend.delete(`CakeWeek/Delete/${id}`);
+      await Swal.fire({
+        icon: 'success',
+        title: 'Supprimé',
+        text: "L'atelier a été supprimé avec succès.",
+        timer: 1400,
+        showConfirmButton: false,
+      });
+      fetchPastries(); // recharge la liste après suppression
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: "Une erreur est survenue lors de la suppression.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const paginatedPastries = pastries?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-console.log(pastries);
 
   return (
     <div className="w-full bg-[#fffcf7] rounded-lg p-6">
@@ -37,10 +78,14 @@ console.log(pastries);
         <h2 className="text-2xl font-bold text-[#481713]">
           Liste des Ateliers de Pâtisserie
         </h2>
-        <Link to={"/addpastry"}  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <Link
+          to={"/addpastry"}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
           Ajouter article
         </Link>
       </div>
+
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-[#481713]">
           <thead className="text-xs uppercase bg-[#461712] text-white">
@@ -63,10 +108,13 @@ console.log(pastries);
                     Modifier
                   </button>
                   <button
-                    onClick={() => onDelete(pastry._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    disabled={loading}
+                    onClick={() => handleDelete(pastry._id)}
+                    className={`${
+                      loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"
+                    } text-white px-2 py-1 rounded`}
                   >
-                    Supprimer
+                    {loading ? "Suppression..." : "Supprimer"}
                   </button>
                 </td>
               </tr>
@@ -74,6 +122,7 @@ console.log(pastries);
           </tbody>
         </table>
       </div>
+
       <div className="flex justify-center mt-4">
         <Pagination
           totalItems={pastries?.length}
