@@ -162,7 +162,7 @@ const WorkshopDetailsReserve = () => {
               <input
                 type="number"
                 min="1"
-                max={workshop.NbPlaces}
+                max={workshop.RemainingPlaces}
                 value={placesToReserve}
                 onChange={handlePlacesChange}
                 className="w-32 p-2 border border-[#461712] rounded-lg focus:outline-none md:w-32"

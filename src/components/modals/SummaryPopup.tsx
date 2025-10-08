@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
+import APIBackend from "../../utils/APIBackend"; // ✅ assure-toi que le chemin est correct
+import ServerAdress from "../../utils/ServerAdress"; // pour base URL si nécessaire
 
 interface Workshop {
-  _id: number;
+  _id: string;
   Title: string;
   Date: string;
   Prix: number;
@@ -18,7 +20,7 @@ interface SummaryPopupProps {
   onClose: () => void;
   workshop: Workshop;
   placesToReserve: number;
-  userEmail?: string; // Optional email prop for authenticated users
+  userEmail?: string;
 }
 
 const SummaryPopup: React.FC<SummaryPopupProps> = ({
@@ -33,17 +35,17 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
     name: "",
     surname: "",
     phone: "",
-    email: userEmail || "", // Pre-fill email if provided
+    email: userEmail || "",
   });
 
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
       places: initialPlaces,
-      email: userEmail || prev.email, // Update email if userEmail changes
+      email: userEmail || prev.email,
     }));
   }, [initialPlaces, userEmail]);
-  // Blocage du scroll
+
   useEffect(() => {
     if (isOpen) {
       const scrollY = window.scrollY;
@@ -63,14 +65,15 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       };
     }
   }, [isOpen]);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     if (name === "places") {
       const numValue = parseInt(value) || 1;
-      if (numValue > workshop.NbPlaces) {
-        setFormData((prev) => ({ ...prev, places: workshop.NbPlaces }));
+      if (numValue > workshop.RemainingPlaces) {
+        setFormData((prev) => ({ ...prev, places: workshop.RemainingPlaces }));
       } else if (numValue < 1) {
         setFormData((prev) => ({ ...prev, places: 1 }));
       } else {
@@ -83,19 +86,35 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
 
   const totalPrice = workshop.Prix * formData.places;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ STRIPE PAYMENT INTEGRATION
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      "Guest reservation summary:",
-      formData,
-      "Total Price:",
-      totalPrice
-    );
-    onClose(); // Close popup after submission (replace with payment logic)
-    // Placeholder for payment navigation (e.g., navigate("/payment"))
+
+    try {
+      const response = await APIBackend.post(
+        `/Atelier/Checkout/${workshop._id}`,
+        {
+          Nom: formData.name,
+          Prenom: formData.surname,
+          Email: formData.email,
+          Phone: formData.phone,
+          NbPlacesReserved: formData.places,
+        }
+      );
+
+      if (response.data.url) {
+        window.location.href = response.data.url; // ✅ redirect to Stripe Checkout
+      } else {
+        console.error("Checkout URL not received:", response.data);
+        alert("Une erreur est survenue lors de la redirection vers le paiement.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la création de la session Stripe:", error);
+      alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+    }
   };
 
-  Modal.setAppElement("#root"); // Adjust based on your app's root element ID
+  Modal.setAppElement("#root");
 
   return (
     <Modal
@@ -126,7 +145,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.name}
                 onChange={handleInputChange}
                 required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                className="w-full p-3 border border-[#461712] rounded-lg"
                 placeholder="Votre nom"
               />
             </div>
@@ -140,7 +159,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.surname}
                 onChange={handleInputChange}
                 required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                className="w-full p-3 border border-[#461712] rounded-lg"
                 placeholder="Votre prénom"
               />
             </div>
@@ -154,7 +173,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                className="w-full p-3 border border-[#461712] rounded-lg"
                 placeholder="06 12 34 56 78"
               />
             </div>
@@ -168,7 +187,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="w-full p-3 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                className="w-full p-3 border border-[#461712] rounded-lg"
                 placeholder="votre.email@exemple.com"
               />
             </div>
@@ -182,8 +201,8 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 value={formData.places}
                 onChange={handleInputChange}
                 min="1"
-                max={workshop.NbPlaces}
-                className="w-24 p-2 border border-[#461712] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                max={workshop.RemainingPlaces}
+                className="w-24 p-2 border border-[#461712] rounded-lg"
               />
             </div>
 
@@ -198,7 +217,7 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
             type="submit"
             className="w-50 bg-[#461712] hover:bg-[#b06c74] text-white py-3 rounded-3xl font-semibold mx-auto block"
           >
-            Passer au payment
+            Passer au paiement
           </button>
         </form>
         <button
