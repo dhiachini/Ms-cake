@@ -11,6 +11,7 @@ import PastryEdit from "./adminpages/PastryEdit";
 import AddPastry from "./adminpages/AddPastry";
 import AddAtelier from "./adminpages/AddAtelier";
 import WorkshopDetailsReserve from "./userpages/WorkshopDetailsReserve";
+import ReservationsTable from "./components/tables/ReservationsTable";
 
 function App() {
   return (
@@ -20,7 +21,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/workshops" element={<WorkShops />} />
           <Route path="/workshop/:id" element={<WorkshopDetails />} />
-          <Route path="/workshopreserve/:id" element={<WorkshopDetailsReserve />} />
+          <Route
+            path="/workshopreserve/:id"
+            element={<WorkshopDetailsReserve />}
+          />
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
           {/* Example admin route: */}
           <Route

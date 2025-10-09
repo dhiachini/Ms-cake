@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
 import APIBackend from "../../utils/APIBackend"; // ✅ assure-toi que le chemin est correct
-import ServerAdress from "../../utils/ServerAdress"; // pour base URL si nécessaire
 
 interface Workshop {
   _id: string;

@@ -69,7 +69,7 @@ function Dashboard() {
   const handleEditPastry = (id: string) => {
     navigate(`/pastry/${id}/edit`);
   };
-  const handleEditWorkshop = (id: number) => {
+  const handleEditWorkshop = (id: string) => {
     navigate(`/workshop/${id}/edit`);
   };
 
