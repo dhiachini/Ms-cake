@@ -11,7 +11,6 @@ import PastryEdit from "./adminpages/PastryEdit";
 import AddPastry from "./adminpages/AddPastry";
 import AddAtelier from "./adminpages/AddAtelier";
 import WorkshopDetailsReserve from "./userpages/WorkshopDetailsReserve";
-import ReservationsTable from "./components/tables/ReservationsTable";
 
 function App() {
   return (
