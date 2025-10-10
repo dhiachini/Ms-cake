@@ -135,13 +135,13 @@ function Navbar() {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 gap-3">
             {firstname ? (
               <div className="hidden md:flex items-center gap-2">
-                <span className="relative rounded-full p-1 text-black">
+                <span className="relative rounded-full p-1 text-sm font-medium text-black">
                   Bonjour, {firstname} |
                 </span>
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="relative rounded-full p-1 text-black hover:text-[#b06c74] focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
+                  className="relative rounded-full p-1 text-black hover:text-[#b06c74] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#b06c74]"
                 >
                   Se déconnecter
                 </button>
@@ -200,6 +200,7 @@ function Navbar() {
           >
             Patisseries
           </Link>
+
           <a
             href="underdevelopment"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
