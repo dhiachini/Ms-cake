@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { X } from "lucide-react";
 import MsIcon from "../../assets/icons/MsIconBlack";
+import Swal from "sweetalert2";
+import APIBackend from "../../utils/APIBackend";
 
 interface CustomOrderPopupProps {
   isOpen: boolean;
@@ -17,6 +19,7 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
     email: "",
     phone: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -52,10 +55,50 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Custom order submitted:", formData);
-    onClose(); // Close popup after submission
+    setIsSubmitting(true);
+
+    try {
+      // Prepare payload (strip spaces from phone)
+      const payload = {
+        customOrder: formData.customOrder,
+        email: formData.email,
+        phone: formData.phone.replace(/\s/g, ""),
+      };
+
+      const resp: any = await APIBackend.post("/CustomOrder/Add", payload);
+      // Backend returns the created order on success (201)
+      console.log("Custom order response:", resp);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Commande envoyée !",
+        text: "Merci — nous vous contacterons bientôt pour confirmer les détails.",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "bg-[#461712] text-white px-4 py-2 rounded",
+        },
+      });
+
+      // Reset form and close
+      setFormData({ customOrder: "", email: "", phone: "" });
+      onClose();
+    } catch (err: any) {
+      console.error("Error submitting custom order:", err);
+      const message = err?.response?.data?.error || err?.message || "Erreur réseau";
+      await Swal.fire({
+        icon: "error",
+        title: "Échec de l'envoi",
+        text: message,
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "bg-[#461712] text-white px-4 py-2 rounded",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Set the app element for accessibility (required by react-modal)
@@ -144,9 +187,10 @@ const CustomOrderPopup: React.FC<CustomOrderPopupProps> = ({
           </div>
           <button
             type="submit"
-            className="w-40 bg-[#461712] hover:bg-[#b06c74] text-white py-3 rounded-3xl font-semibold mx-auto block" // Reduced width to w-40 and centered
+            disabled={isSubmitting}
+            className={`w-40 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#461712] hover:bg-[#b06c74]'} text-white py-3 rounded-3xl font-semibold mx-auto block`}
           >
-            Soumettre
+            {isSubmitting ? 'Envoi...' : 'Soumettre'}
           </button>
         </form>
         <button

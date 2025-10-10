@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import PastryTable from "../components/tables/PastryTable";
 import WorkshopTable from "../components/tables/WorkshopTable";
+import CustomOrderTable from "../components/tables/CustomOrderTable";
 import APIBackend from "../utils/APIBackend";
 
 // interface Workshop {
@@ -19,14 +20,20 @@ import APIBackend from "../utils/APIBackend";
 // }
 
 function Dashboard() {
-
   const [weekCake, setWeekCake] = useState<any[]>([]);
   const [workshops, setWorkshops] = useState<any[]>([]);
+  const [customOrders, setCustomOrders] = useState<any[]>([]);
+  const getCustomOrders = () => {
+    APIBackend.get("/CustomOrder/GetAll")
+      .then((response) => setCustomOrders(response.data))
+      .catch((error: any) =>
+        console.error("Error fetching custom orders", error)
+      );
+  };
   const getDataCake = () => {
     APIBackend.get("/CakeWeek/GetAll")
       .then((response) => {
         setWeekCake(response.data);
-
       })
       .catch((error: any) => {
         console.error("There was an error!", error);
@@ -44,7 +51,9 @@ function Dashboard() {
   useEffect(() => {
     getDataCake();
     getDataAteliers();
+    // don't fetch custom orders until user requests the view to save bandwidth
   }, []);
+  const [showCustomOrders, setShowCustomOrders] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<string>("Pâtisserie"); // Par défaut "Tous" pour afficher tous les workshops
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -52,6 +61,8 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const handleCategoryClick = (category: string) => {
+    // Ensure custom orders view is turned off when switching categories
+    setShowCustomOrders(false);
     setSelectedCategory(category);
     setCurrentPage(1); // Reset à la première page
   };
@@ -59,7 +70,9 @@ function Dashboard() {
   const filteredWorkshops =
     selectedCategory === "Tous"
       ? workshops
-      : workshops.filter((workshop) => workshop.Categories === selectedCategory);
+      : workshops.filter(
+          (workshop) => workshop.Categories === selectedCategory
+        );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -74,7 +87,6 @@ function Dashboard() {
   };
 
   // delete handled inside WorkshopTable; pass a refresh callback below
-  
 
   return (
     <div>
@@ -89,29 +101,51 @@ function Dashboard() {
         </div>
 
         <div className="w-full h-full p-8 bg-[#fdf5f2]">
-          <div className="w-full flex flex-row justify-center items-center mb-8 gap-4">
-            <button
-              className={`bg-[#461712] ${selectedCategory === "Pâtisserie"
-                ? "bg-[#b06c74] text-[#faf4e6]"
-                : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
-                } text-white px-3 py-1 h-[50px] w-[210px] rounded-3xl cursor-pointer border-0 outline-none`}
-              onClick={() => handleCategoryClick("Pâtisserie")}
-            >
-              Pâtisserie
-            </button>
-            <button
-              className={`bg-[#461712] ${selectedCategory === "Tous" ||
-                selectedCategory === "Cake design"
-                ? "bg-[#b06c74] text-[#faf4e6]"
-                : "hover:bg-[#b06c74] hover:text-[#faf4e6]"
-                } text-white px-3 py-1 h-[50px] w-[200px] rounded-3xl cursor-pointer border-0 outline-none`}
-              onClick={() => handleCategoryClick("Tous")}
-            >
-              Ateliers
-            </button>
-          </div>
+        <div className="w-full flex flex-col md:flex-row justify-center items-center mb-8 gap-4">
+  {/* Pâtisserie button */}
+  <button
+    onClick={() => handleCategoryClick("Pâtisserie")}
+    className={`bg-[#461712] ${!showCustomOrders && selectedCategory === "Pâtisserie" ? "bg-[#b06c74] text-[#faf4e6]" : "hover:bg-[#b06c74] hover:text-[#faf4e6]"} text-sm sm:text-base text-white px-3 py-1 h-[50px] w-full md:w-[210px] rounded-3xl cursor-pointer border-0 outline-none`}
+  >
+    Pâtisserie
+  </button>
 
-          {selectedCategory === "Pâtisserie" ? (
+  {/* Commandes personnalisées button */}
+  <button
+    onClick={() => {
+      setShowCustomOrders((s) => {
+        const next = !s;
+        if (!s) {
+          setSelectedCategory("");
+          getCustomOrders();
+        }
+        return next;
+      });
+    }}
+    className={`bg-[#461712] ${showCustomOrders ? "bg-[#b06c74] text-[#faf4e6]" : "hover:bg-[#b06c74] hover:text-[#faf4e6]"} text-sm sm:text-base text-white px-3 py-1 h-[50px] w-full md:w-[240px] rounded-3xl cursor-pointer border-0 outline-none`}
+  >
+    Commandes personnalisées
+  </button>
+
+  {/* Ateliers button */}
+  <button
+    onClick={() => handleCategoryClick("Tous")}
+    className={`bg-[#461712] ${!showCustomOrders && (selectedCategory === "Tous" || selectedCategory === "Cake design") ? "bg-[#b06c74] text-[#faf4e6]" : "hover:bg-[#b06c74] hover:text-[#faf4e6]"} text-sm sm:text-base text-white px-3 py-1 h-[50px] w-full md:w-[200px] rounded-3xl cursor-pointer border-0 outline-none`}
+  >
+    Ateliers
+  </button>
+</div>
+
+
+          {showCustomOrders ? (
+            <CustomOrderTable
+              customOrders={customOrders}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              fetchOrders={getCustomOrders}
+            />
+          ) : selectedCategory === "Pâtisserie" ? (
             <PastryTable
               pastries={weekCake}
               currentPage={currentPage}
