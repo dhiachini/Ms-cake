@@ -11,6 +11,7 @@ import PastryEdit from "./adminpages/PastryEdit";
 import AddPastry from "./adminpages/AddPastry";
 import AddAtelier from "./adminpages/AddAtelier";
 import WorkshopDetailsReserve from "./userpages/WorkshopDetailsReserve";
+import PaymentSuccess from "./userpages/PaymentSuccess";
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
           <Route
             path="/workshopreserve/:id"
             element={<WorkshopDetailsReserve />}
+          />
+          <Route
+            path="/paymentsuccess"
+            element={<PaymentSuccess />}
           />
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
           {/* Example admin route: */}

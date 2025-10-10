@@ -4,7 +4,7 @@ import APIBackend from "../../utils/APIBackend";
 import Swal from "sweetalert2";
 import { useState, type SetStateAction } from "react";
 import ReservationsTable from "./ReservationsTable";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Workshop {
   _id: string;
@@ -38,7 +38,19 @@ function WorkshopTable({
   const [loadingId, setLoadingId] = useState<string | number | null>(null);
   const [isReserv, setIReserv] = useState<boolean | null>(false);
   const [isReservId, setIReservId] = useState<string | null>(null);
-  const paginatedWorkshops = workshops?.slice(
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  // derive unique categories for the dropdown
+  const uniqueCategories = Array.from(
+    new Set(workshops.map((w) => w.Categories).filter(Boolean))
+  ) as string[];
+
+  // apply category filter if any
+  const filteredWorkshops = selectedCategory
+    ? workshops.filter((w) => w.Categories === selectedCategory)
+    : workshops;
+
+  const paginatedWorkshops = filteredWorkshops?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -53,7 +65,7 @@ function WorkshopTable({
         <>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-[#481713] mb-4">
-              
+              {workshops.find((w) => w._id === isReservId)?.Title ?? "Détails de l'atelier"}
             </h2>
             <button onClick={() => setIReserv(false)}
               className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -87,7 +99,49 @@ function WorkshopTable({
                   <th className="px-4 py-2">Prix (€)</th>
                   <th className="px-4 py-2">Places</th>
                   <th className="px-4 py-2">Places restantes</th>
-                  <th className="px-4 py-2">Catégorie</th>
+                  <th className="px-4 py-2">
+                    <div className="relative inline-block">
+                      <button
+                        onClick={() => setShowCategoryDropdown((s) => !s)}
+                        className="flex items-center gap-2"
+                        aria-expanded={showCategoryDropdown}
+                        aria-haspopup="listbox"
+                      >
+                        Catégorie
+                        {showCategoryDropdown ? (
+                          <ChevronUp size={16} />
+                        ) : (
+                          <ChevronDown size={16} />
+                        )}
+                      </button>
+
+                      {showCategoryDropdown && (
+                        <ul className="absolute right-0 mt-2 w-48 bg-[#461712] border rounded shadow z-50">
+                          <li
+                            className="px-3 py-2 hover:bg-[#b06c74] cursor-pointer"
+                            onClick={() => {
+                              setSelectedCategory(null);
+                              setShowCategoryDropdown(false);
+                            }}
+                          >
+                            Tous
+                          </li>
+                          {uniqueCategories.map((cat) => (
+                            <li
+                              key={cat}
+                              className="px-3 py-2 hover:bg-[#b06c74] cursor-pointer"
+                              onClick={() => {
+                                setSelectedCategory(cat);
+                                setShowCategoryDropdown(false);
+                              }}
+                            >
+                              {cat}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </th>
                   <th className="px-4 py-2 rounded-r-xl">Actions</th>
                 </tr>
               </thead>
@@ -174,7 +228,7 @@ function WorkshopTable({
                       </button>
                       <button
                         onClick={() => handleReservationClick(workshop._id)}
-                        className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                        className="bg-blue-500 text-white px-2 py-1 rounded ml-2 mr-2"
                       >
                         Reservations
                       </button>
