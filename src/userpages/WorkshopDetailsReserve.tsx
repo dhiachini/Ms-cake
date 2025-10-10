@@ -36,22 +36,53 @@ const WorkshopDetailsReserve = () => {
 
   //const [workshops] = useState(initialWorkshops);
   const [workshop, setWorkshop] = useState<any | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   // Fetch workshop by ID
   useEffect(() => {
     if (!id) return;
+    let cancelled = false;
 
-    APIBackend.get<Workshop>(`/Atelier/GetById/${id}`)
-      .then((res) => {
-        setWorkshop(res.data);
-      })
-      .catch((err) => {
+    const fetchWorkshop = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await APIBackend.get<Workshop>(`/Atelier/GetById/${id}`);
+        if (!cancelled) setWorkshop(res.data);
+      } catch (err) {
         console.error("Error fetching workshop:", err);
-      });
+        if (!cancelled) setError("Erreur lors du chargement de l'atelier.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    fetchWorkshop();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="text-center p-8 text-[#481713]">
+        <svg
+          className="animate-spin h-8 w-8 mx-auto mb-2 text-[#481713]"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        Chargement de l'atelier...
+      </div>
+    );
+  }
 
   if (!workshop) {
     return (
-      <div className="text-center p-4 text-[#481713]">Workshop not found</div>
+      <div className="text-center p-4 text-[#481713]">{error ?? "Workshop not found"}</div>
     );
   }
 

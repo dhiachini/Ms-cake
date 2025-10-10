@@ -25,14 +25,34 @@ const EditAtelier = () => {
   const [newImage, setNewImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    APIBackend.get(`/Atelier/GetById/${id}`)
-      .then((res) => {
-        setAtelier(res.data);
-        setPreview(ServerAdress + res.data.ImageUrl);
-      })
-      .catch((err) => console.error("Error fetching atelier:", err));
+    if (!id) return;
+    let cancelled = false;
+
+    const fetchAtelier = async () => {
+      setFetching(true);
+      setError(null);
+      try {
+        const res = await APIBackend.get<Atelier>(`/Atelier/GetById/${id}`);
+        if (!cancelled) {
+          setAtelier(res.data);
+          setPreview(ServerAdress + res.data.ImageUrl);
+        }
+      } catch (err) {
+        console.error("Error fetching atelier:", err);
+        if (!cancelled) setError("Erreur lors du chargement de l'atelier.");
+      } finally {
+        if (!cancelled) setFetching(false);
+      }
+    };
+
+    fetchAtelier();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   const handleChange = (
@@ -109,9 +129,26 @@ const EditAtelier = () => {
     }
   };
 
+  if (fetching) {
+    return (
+      <div className="text-center p-8 text-[#481713]">
+        <svg
+          className="animate-spin h-8 w-8 mx-auto mb-2 text-[#481713]"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        Chargement de l'atelier...
+      </div>
+    );
+  }
+
   if (!atelier)
     return (
-      <div className="text-center p-4 text-[#481713]">Atelier non trouvé</div>
+      <div className="text-center p-4 text-[#481713]">{error ?? "Atelier non trouvé"}</div>
     );
 
   return (
