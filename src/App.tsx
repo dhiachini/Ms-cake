@@ -12,6 +12,7 @@ import AddPastry from "./adminpages/AddPastry";
 import AddAtelier from "./adminpages/AddAtelier";
 import WorkshopDetailsReserve from "./userpages/WorkshopDetailsReserve";
 import PaymentSuccess from "./userpages/PaymentSuccess";
+import UnderDevelopment from "./userpages/UnderDevelopment";
 
 function App() {
   return (
@@ -25,11 +26,9 @@ function App() {
             path="/workshopreserve/:id"
             element={<WorkshopDetailsReserve />}
           />
-          <Route
-            path="/paymentsuccess"
-            element={<PaymentSuccess />}
-          />
+          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
+          <Route path="/underdevelopment" element={<UnderDevelopment />} />
           {/* Example admin route: */}
           <Route
             path="/dashboard"

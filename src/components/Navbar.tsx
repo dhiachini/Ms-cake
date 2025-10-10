@@ -100,13 +100,13 @@ function Navbar() {
                 Patisseries
               </Link>
               <a
-                href="#"
+                href="/underdevelopment"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
               >
                 Cake-personnalisé
               </a>
               <a
-                href="#"
+                href="/underdevelopment"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
               >
                 Traiteur
@@ -123,7 +123,7 @@ function Navbar() {
                 Ateliers
               </Link>
               <a
-                href="#"
+                href="/underdevelopment"
                 className="rounded-md px-3 py-2 text-sm font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
               >
                 E-book
@@ -201,13 +201,13 @@ function Navbar() {
             Patisseries
           </Link>
           <a
-            href="#"
+            href="underdevelopment"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
           >
             Cake-personnalisé
           </a>
           <a
-            href="#"
+            href="/underdevelopment"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
           >
             Traiteur
@@ -223,7 +223,7 @@ function Navbar() {
             Ateliers
           </Link>
           <a
-            href="#"
+            href="/underdevelopment"
             className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-[#b06c74]/10 hover:text-[#b06c74]"
           >
             E-book

@@ -55,28 +55,30 @@ const WorkshopDetailsReserve = () => {
     );
   }
 
-  const handleReserve = () => {
-    if (placesToReserve > workshop.NbPlaces) {
-      alert("Le nombre de places demandées dépasse les places restantes!");
-      return;
-    }
-    if (!isAuthenticated) {
-      setIsConfirmationOpen(true);
-    } else {
-      setIsSummaryOpen(true);
-    }
-  };
-
+ // Vérification finale au moment de la réservation
+const handleReserve = () => {
+  if (placesToReserve > workshop.RemainingPlaces) {
+    setPlacesToReserve(workshop.RemainingPlaces); // corrige si nécessaire
+    alert(
+      `Le nombre de places demandées dépasse les places restantes! Il reste ${workshop.RemainingPlaces} places.`
+    );
+    return;
+  }
+  if (!isAuthenticated) {
+    setIsConfirmationOpen(true);
+  } else {
+    setIsSummaryOpen(true);
+  }
+};
   const handlePlacesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 1;
-    if (value > workshop.NbPlaces) {
-      setPlacesToReserve(workshop.NbPlaces);
-    } else if (value < 1) {
-      setPlacesToReserve(1);
-    } else {
-      setPlacesToReserve(value);
-    }
-  };
+  const value = parseInt(e.target.value) || 1;
+  // Ici on ne force pas le max, on garde la saisie de l'utilisateur
+  if (value < 1) {
+    setPlacesToReserve(1);
+  } else {
+    setPlacesToReserve(value);
+  }
+};
 
   const closeAuth = (email?: string) => {
     setIsAuthOpen(false);

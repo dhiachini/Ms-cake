@@ -90,7 +90,7 @@ function PastryTable({
         <table className="w-full text-sm text-left text-[#481713]">
           <thead className="text-xs uppercase bg-[#461712] text-white">
             <tr>
-              <th className="px-4 py-2">Titre</th>
+              <th className="px-4 py-2 rounded-l-xl">Titre</th>
               <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2 rounded-r-xl">Actions</th>
             </tr>
