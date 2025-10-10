@@ -89,6 +89,14 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Vérification du nombre de places avant envoi
+    if (formData.places > workshop.RemainingPlaces) {
+      alert(
+        `Vous ne pouvez pas réserver plus de ${workshop.RemainingPlaces} places.`
+      );
+      return; // stop le submit
+    }
+
     try {
       const response = await APIBackend.post(
         `/Atelier/Checkout/${workshop._id}`,
@@ -102,10 +110,12 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
       );
 
       if (response.data.url) {
-        window.location.href = response.data.url; // ✅ redirect to Stripe Checkout
+        window.location.href = response.data.url; // redirect to Stripe Checkout
       } else {
         console.error("Checkout URL not received:", response.data);
-        alert("Une erreur est survenue lors de la redirection vers le paiement.");
+        alert(
+          "Une erreur est survenue lors de la redirection vers le paiement."
+        );
       }
     } catch (error) {
       console.error("Erreur lors de la création de la session Stripe:", error);
@@ -198,9 +208,13 @@ const SummaryPopup: React.FC<SummaryPopupProps> = ({
                 type="number"
                 name="places"
                 value={formData.places}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    places: parseInt(e.target.value) || 1,
+                  }))
+                }
                 min="1"
-                max={workshop.RemainingPlaces}
                 className="w-24 p-2 border border-[#461712] rounded-lg"
               />
             </div>
