@@ -1,6 +1,6 @@
 import MsIcon from "../assets/icons/MsIconBlack";
 import { ShoppingCart, UserRound, Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AuthPopup from "./modals/AuthPopup";
 import { useAuth } from "../AuthContext";
@@ -33,13 +33,14 @@ function Navbar() {
     setFirstname(localStorage.getItem("firstname"));
     setRole(localStorage.getItem("role")); // initialise le rôle au chargement
   }, []);
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("firstname");
     localStorage.setItem("role", "visiteur"); // supprime le rôle
     setFirstname(null);
     setRole(null);
+    navigate("/");
   };
 
   return (
