@@ -128,26 +128,28 @@ function WorkShops() {
                       </div>
 
                       <div className="flex justify-between items-center flex-wrap gap-2">
-  {workshop.RemainingPlaces > 0 && (
-    <p className="text-sm sm:text-base font-normal text-[#481713]">
-      {workshop.RemainingPlaces} Places restantes
-    </p>
-  )}
-  {workshop.RemainingPlaces === 0 ? (
-    <p className="text-sm sm:text-base font-normal text-[#481713]">
-      Complets!
-    </p>
-  ) : (
-    <button
-      onClick={() => navigate(`/workshopreserve/${workshop._id}`)}
-      className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white 
+                        {workshop.RemainingPlaces > 0 && (
+                          <p className="text-sm sm:text-base font-normal text-[#481713]">
+                            {workshop.RemainingPlaces} Places restantes
+                          </p>
+                        )}
+                        {workshop.RemainingPlaces === 0 ? (
+                          <p className="text-sm sm:text-base font-normal text-[#481713]">
+                            Complets!
+                          </p>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              navigate(`/workshopreserve/${workshop._id}`)
+                            }
+                            className="bg-[#461712] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white 
        px-2 py-1 h-[35px] w-[120px] sm:h-[50px] sm:w-[180px] 
        text-xs sm:text-base rounded-3xl cursor-pointer border-0 outline-none"
-    >
-      Reserver ma place
-    </button>
-  )}
-</div>
+                          >
+                            Reserver ma place
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

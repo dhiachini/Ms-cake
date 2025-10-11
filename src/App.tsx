@@ -26,7 +26,10 @@ function App() {
             path="/workshopreserve/:id"
             element={<WorkshopDetailsReserve />}
           />
-          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+          <Route
+            path="/paymentsuccess/:Nom/:Prenom/:Email/:Phone/:Atelier/:NbPlacesReserved"
+            element={<PaymentSuccess />}
+          />
           <Route path="/pastryweekend" element={<PastryWeekEnd />} />
           <Route path="/underdevelopment" element={<UnderDevelopment />} />
           {/* Example admin route: */}

@@ -1,9 +1,36 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import APIBackend from "../utils/APIBackend";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
+  const { Nom, Prenom, Email, Phone,Atelier,NbPlacesReserved } = useParams();
+  const [emailSent, setEmailSent] = useState(false);
+
+  useEffect(() => {
+    if (emailSent) return; // prevent duplicate call
+
+    const sendmail = async () => {
+      try {
+        await APIBackend.post("/Atelier/sendmail", {
+          Nom,
+          Prenom,
+          Email,
+          Phone,
+          Atelier,
+          NbPlacesReserved
+        });
+        console.log("Email sent successfully");
+        setEmailSent(true); // mark as sent
+      } catch (error) {
+        console.error("There was an error sending the email!", error);
+      }
+    };
+
+    sendmail();
+  }, [Nom, Prenom, Email, Phone, emailSent]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white text-center px-6">
@@ -24,8 +51,8 @@ const PaymentSuccess = () => {
 
       {/* Message */}
       <p className="text-gray-700 text-base md:text-lg max-w-md mb-8">
-        Merci pour votre réservation ! Votre paiement a été confirmé avec succès.
-        Vous recevrez un e-mail de confirmation sous peu.
+        Merci pour votre réservation ! Votre paiement a été confirmé avec
+        succès. Vous recevrez un e-mail de confirmation sous peu.
       </p>
 
       {/* Bouton retour */}
