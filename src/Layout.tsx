@@ -57,82 +57,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <p className="text-[#461712] font-semibold text-lg mb-2">
                 Qui sommes-nous
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#461712] mb-4 leading-snug">
-                Design, Passion et Création au Service de Vos Goûts
+              <h2 className="text-xl md:text-2xl font-bold text-[#461712] mb-4 leading-snug">
+                🍰 Sofiane Ben Salah
               </h2>
               <p className="text-gray-700 text-base mb-8 leading-relaxed">
-                Chez{" "}
-                <span className="font-semibold text-[#481713]">Ms Cake</span>,
-                nous mettons notre créativité et notre savoir-faire au service
-                de la gourmandise. Qu’il s’agisse de design pâtissier, de
-                composition ou de personnalisation, notre équipe met tout son
-                cœur à réaliser vos envies avec une approche artisanale et
-                moderne.
+                Chef pâtissier passionné, fort de 15 ans d’expérience en
+                pâtisserie française. Doué depuis l’enfance, il allie
+                savoir-faire, précision et créativité. Il rejoint Ms Cake en
+                2022 pour y exprimer pleinement son art.
+              </p>
+              <h2 className="text-xl md:text-2xl font-bold text-[#461712] mb-4 leading-snug">
+                🎂 Meriem Nouira
+              </h2>
+              <p className="text-gray-700 text-base mb-8 leading-relaxed">
+                Fondatrice et cake designer, Meriem transforme la passion en
+                métier depuis plus de 5 ans. Partie de chez elle, cette jeune
+                maman artiste crée des gâteaux qui mêlent élégance, émotion et
+                authenticité.{" "}
               </p>
 
-              {/* 🎯 Mission / Vision */}
-              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-                {/* Mission */}
-                <div className="flex flex-col items-center sm:items-start bg-[#b06c74]/10 p-5 rounded-xl w-full sm:w-1/2 shadow-sm hover:shadow-md transition">
-                  <div className="bg-[#b06c74] text-white p-3 rounded-lg mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-lg text-[#1e1e1e]">
-                    Notre mission
-                  </h3>
-                  <p className="text-gray-600 text-sm mt-2">
-                    Allier l’élégance et le goût pour offrir des créations
-                    uniques, inspirées par la passion et le savoir-faire
-                    artisanal.
-                  </p>
-                </div>
-
-                {/* Vision */}
-                <div className="flex flex-col items-center sm:items-start bg-[#b06c74]/10 p-5 rounded-xl w-full sm:w-1/2 shadow-sm hover:shadow-md transition">
-                  <div className="bg-[#b06c74] text-white p-3 rounded-lg mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-lg text-[#1e1e1e]">
-                    Notre vision
-                  </h3>
-                  <p className="text-gray-600 text-sm mt-2">
-                    Redéfinir la pâtisserie artisanale en mêlant créativité,
-                    innovation et émotions sucrées.
-                  </p>
-                </div>
-              </div>
+           
             </div>
           </div>
         </div>
