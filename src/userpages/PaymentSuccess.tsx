@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
           Phone,
           Atelier,
           NbPlacesReserved,
-        });
+        }, { timeout: 100000 });
         console.log("Email sent successfully");
         setEmailSent(true); 
       } catch (error) {
