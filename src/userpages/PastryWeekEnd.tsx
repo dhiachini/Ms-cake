@@ -91,7 +91,7 @@ function PastryWeekEnd() {
                     <div className="w-full h-full rounded-lg overflow-hidden">
                       <img
                         className="w-full h-full object-cover object-center"
-                        src={ServerAdress+workshop.ImageUrl}
+                        src={workshop.ImageUrl}
                         alt={workshop.Title}
                       />
                     </div>
