@@ -99,7 +99,7 @@ function WorkShops() {
                       <a href="#">
                         <div className="w-full h-64 overflow-hidden rounded-lg">
                           <img
-                            src={ServerAdress + workshop.ImageUrl}
+                            src={ workshop.ImageUrl}
                             alt={workshop.Title}
                             className="w-full h-full object-cover"
                           />

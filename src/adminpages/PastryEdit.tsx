@@ -32,7 +32,7 @@ const PastryEdit = () => {
     APIBackend.get(`/CakeWeek/GetByID/${id}`)
       .then((res) => {
         setPastry(res.data);
-        setPreview(ServerAdress + res.data.ImageUrl); // initial preview
+        setPreview( res.data.ImageUrl); // initial preview
       })
       .catch((err) => console.error("Error fetching pastry:", err));
   }, [id]);

@@ -39,7 +39,7 @@ const EditAtelier = () => {
         const res = await APIBackend.get<Atelier>(`/Atelier/GetById/${id}`);
         if (!cancelled) {
           setAtelier(res.data);
-          setPreview(ServerAdress + res.data.ImageUrl);
+          setPreview( res.data.ImageUrl);
         }
       } catch (err) {
         console.error("Error fetching atelier:", err);

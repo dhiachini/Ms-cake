@@ -68,7 +68,7 @@ function WeekendCarousel() {
               <Card>
                 <div className="p-4">
                   <img
-                    src={ServerAdress + item.ImageUrl}
+                    src={ item.ImageUrl}
                     alt={item.Title || `Photo ${i + 1}`}
                     className="object-cover w-full h-90 mb-4 rounded-xl"
                   />
@@ -94,7 +94,7 @@ function WeekendCarousel() {
                   <div key={item._id ?? i} className="w-1/3 p-4">
                     <Card>
                       <img
-                        src={ServerAdress + item.ImageUrl}
+                        src={ item.ImageUrl}
                         alt={item.Title || `Photo ${start + i + 1}`}
                         className="object-cover w-full h-150 mb-4 rounded-xl"
                       />

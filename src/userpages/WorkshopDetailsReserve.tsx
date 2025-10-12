@@ -151,7 +151,7 @@ const handleReserve = () => {
       <div className="container mx-auto p-4 md:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
           <img
-            src={ServerAdress + workshop.ImageUrl}
+            src={ workshop.ImageUrl}
             alt={workshop.Title}
             className="w-full h-64 md:h-96 object-cover"
           />
