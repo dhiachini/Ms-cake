@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import APIBackend from "../utils/APIBackend";
-import ServerAdress from "../utils/ServerAdress";
+
 
 interface Workshop {
   _id: string;

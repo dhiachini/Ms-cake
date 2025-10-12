@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import APIBackend from "../utils/APIBackend";
-import ServerAdress from "../utils/ServerAdress";
+
 
 function WeekendCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);

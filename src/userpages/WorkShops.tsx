@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import workshopBreadcrumb from "../assets/images/workshop-breadcrumb.png";
 import APIBackend from "../utils/APIBackend";
-import ServerAdress from "../utils/ServerAdress";
+
 
 function WorkShops() {
   const [selectedCategory, setSelectedCategory] = useState("Pâtisserie");

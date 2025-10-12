@@ -6,7 +6,7 @@ import AuthPopup from "../components/modals/AuthPopup";
 import SummaryPopup from "../components/modals/SummaryPopup";
 import ConfirmationPopup from "../components/modals/ConfirmationPopup";
 import APIBackend from "../utils/APIBackend";
-import ServerAdress from "../utils/ServerAdress";
+
 
 interface Workshop {
   _id: string;

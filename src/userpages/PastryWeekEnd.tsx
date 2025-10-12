@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import CustomOrderPopup from "../components/modals/CustomOrderPopup";
 import weekEndBreadcrumb from "../assets/images/week-end-patisserie-breadcrumb.jpg";
 import APIBackend from "../utils/APIBackend";
-import ServerAdress from "../utils/ServerAdress";
+
 
 function PastryWeekEnd() {
 
