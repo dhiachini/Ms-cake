@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import Footer from "../components/Footer";
 import CustomOrderPopup from "../components/modals/CustomOrderPopup";
-import weekEndBreadcrumb from "../assets/images/week-end-patisserie-breadcrumb.jpg";
+import weekEndBreadcrumb from "../assets/images/week-end-patisserie-breadcrumb.png";
 import APIBackend from "../utils/APIBackend";
 
 function PastryWeekEnd() {

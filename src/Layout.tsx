@@ -61,22 +61,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 🍰 Sofiane Ben Salah
               </h2>
               <p className="text-gray-700 text-base mb-8 leading-relaxed">
-                Chef pâtissier passionné, fort de 15 ans d’expérience en
-                pâtisserie française. Doué depuis l’enfance, il allie
-                savoir-faire, précision et créativité. Il rejoint Ms Cake en
-                2022 pour y exprimer pleinement son art.
+                Chef pâtissier passionné, Sofian Ben Salah cumule plus de 15 ans
+                d’expérience en pâtisserie française. Alliant savoir-faire,
+                précision et créativité, il met son expertise au service de
+                créations raffinées et gourmandes. Cofondateur de MS Cake, il
+                partage avec Meriem Nouira la volonté d’offrir une pâtisserie
+                élégante, moderne et pleine d’émotions.
               </p>
               <h2 className="text-xl md:text-2xl font-bold text-[#461712] mb-4 leading-snug">
                 🎂 Meriem Nouira
               </h2>
               <p className="text-gray-700 text-base mb-8 leading-relaxed">
-                Fondatrice et cake designer, Meriem transforme la passion en
-                métier depuis plus de 5 ans. Partie de chez elle, cette jeune
-                maman artiste crée des gâteaux qui mêlent élégance, émotion et
-                authenticité.{" "}
+                Fondatrice et cake designer, Meriem a d’abord travaillé dans la
+                création de bijoux avant de tomber amoureuse du cake design.
+                Passionnée par l’art, la décoration et le souci du détail, elle
+                transforme chaque gâteau en une véritable œuvre d’art, mêlant
+                élégance, émotion et authenticité.
               </p>
-
-           
             </div>
           </div>
         </div>
