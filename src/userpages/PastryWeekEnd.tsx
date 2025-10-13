@@ -19,7 +19,7 @@ function PastryWeekEnd() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo(500, 500);;
+    window.scrollTo(500, 500);
   };
 
   const openCustomOrder = () => setIsCustomOrderOpen(true);
@@ -47,26 +47,32 @@ function PastryWeekEnd() {
 
       <div className="w-full flex flex-col items-center">
         {/* Section Hero */}
-       <div className="relative w-full h-[30vh] sm:h-[60vh] md:h-[80vh]">
-  <img
-    src={weekEndBreadcrumb}
-    alt="Workshop Breadcrumb"
-    className="w-full h-full object-cover mt-0"
-  />
+       <div
+  className="relative w-full flex items-center justify-center sm:justify-start text-[#342520]"
+  style={{
+    backgroundImage: `url(${weekEndBreadcrumb})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "60vh",
+  }}
+>
+  {/* Overlay sombre léger */}
+  <div className="absolute inset-0 bg-black/20"></div>
 
-  <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-10 space-y-3 text-[#342520]">
-    <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl max-w-[90%] sm:max-w-[70%] leading-snug">
+  {/* Contenu superposé */}
+  <div className="relative z-10 text-white px-6 sm:px-16 md:px-24 lg:px-32 py-20 sm:py-0 max-w-[800px]">
+    <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl leading-tight drop-shadow-md">
       MENU DU WEEK-END <br /> pâtisserie éphémère
     </h1>
 
-    <section className="font-serif text-sm sm:text-base md:text-2xl mt-5 max-w-[90%] sm:max-w-[70%] leading-relaxed">
-      Chaque semaine, une sélection inspirée par nos passions,
-      <br /> vos envies et vos plus belles gourmandises.
-    </section>
+    <p className="font-serif text-base sm:text-lg md:text-2xl mt-6 leading-relaxed drop-shadow">
+      Chaque semaine, une sélection inspirée par nos passions, <br />
+      vos envies et vos plus belles gourmandises.
+    </p>
 
     <button
       onClick={openCustomOrder}
-      className="bg-[#5a140a] hover:bg-[#b06c74] hover:text-[#faf4e6] text-white px-6 py-3 mt-9 w-fit rounded-3xl cursor-pointer border-0 outline-none"
+      className="bg-[#5a140a] hover:bg-[#b06c74] text-white px-6 py-3 mt-8 rounded-3xl border-0 outline-none shadow-md cursor-pointer"
     >
       Passer une commande personnalisée
     </button>
