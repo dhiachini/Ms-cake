@@ -47,38 +47,37 @@ function PastryWeekEnd() {
 
       <div className="w-full flex flex-col items-center">
         {/* Section Hero */}
-       <div
-  className="relative w-full flex items-center justify-center sm:justify-start text-[#342520]"
-  style={{
-    backgroundImage: `url(${weekEndBreadcrumb})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "60vh",
-  }}
->
-  {/* Overlay sombre léger */}
-  <div className="absolute inset-0 bg-black/20"></div>
+        <div
+          className="relative w-full flex items-center justify-center sm:justify-start text-[#342520]"
+          style={{
+            backgroundImage: `url(${weekEndBreadcrumb})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "60vh",
+          }}
+        >
+          {/* Overlay sombre léger */}
+          <div className="absolute inset-0 bg-black/20"></div>
 
-  {/* Contenu superposé */}
-  <div className="relative z-10 text-white px-6 sm:px-16 md:px-24 lg:px-32 py-20 sm:py-0 max-w-[800px]">
-    <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl leading-tight drop-shadow-md">
-      MENU DU WEEK-END <br /> pâtisserie éphémère
-    </h1>
+          {/* Contenu superposé */}
+          <div className="relative z-10 text-white px-6 sm:px-16 md:px-24 lg:px-32 py-20 sm:py-0 max-w-[800px]">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl leading-tight drop-shadow-md">
+              MENU DU WEEK-END <br /> pâtisserie éphémère
+            </h1>
 
-    <p className="font-serif text-base sm:text-lg md:text-2xl mt-6 leading-relaxed drop-shadow">
-      Chaque semaine, une sélection inspirée par nos passions, <br />
-      vos envies et vos plus belles gourmandises.
-    </p>
+            <p className="font-serif text-base sm:text-lg md:text-2xl mt-6 leading-relaxed drop-shadow">
+              Chaque semaine, une sélection inspirée par nos passions, <br />
+              vos envies et vos plus belles gourmandises.
+            </p>
 
-    <button
-      onClick={openCustomOrder}
-      className="bg-[#5a140a] hover:bg-[#b06c74] text-white px-6 py-3 mt-8 rounded-3xl border-0 outline-none shadow-md cursor-pointer"
-    >
-      Passer une commande personnalisée
-    </button>
-  </div>
-</div>
-
+            <button
+              onClick={openCustomOrder}
+              className="bg-[#5a140a] hover:bg-[#b06c74] text-white px-6 py-3 mt-8 rounded-3xl border-0 outline-none shadow-md cursor-pointer"
+            >
+              Passer une commande personnalisée
+            </button>
+          </div>
+        </div>
 
         {/* Section Cards */}
         <div className="w-full h-full p-6 sm:p-8 bg-[#fdf5f2]">

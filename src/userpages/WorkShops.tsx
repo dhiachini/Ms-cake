@@ -6,7 +6,6 @@ import Pagination from "../components/Pagination";
 import workshopBreadcrumb from "../assets/images/workshop-breadcrumb.png";
 import APIBackend from "../utils/APIBackend";
 
-
 function WorkShops() {
   const [selectedCategory, setSelectedCategory] = useState("Pâtisserie");
   const [data, setData] = useState<any[]>([]);
@@ -58,12 +57,16 @@ function WorkShops() {
       <div className="sticky top-0 w-full z-50">
         <Navbar />
       </div>
+      <div
+        className="relative w-full flex items-center justify-center sm:justify-start text-[#342520]"
+        style={{
+          backgroundImage: `url(${workshopBreadcrumb})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "60vh",
+        }}
+      ></div>
       <div className="w-full flex flex-col items-center">
-        <img
-          src={workshopBreadcrumb}
-          alt="Workshop Breadcrumb"
-          className="w-full h-70 object-cover mt-0"
-        />
         <div className="w-full h-full p-8 bg-[#fdf5f2]">
           <div className="w-full flex flex-row justify-center items-center mb-8 gap-4">
             <button
@@ -99,7 +102,7 @@ function WorkShops() {
                       <a href="#">
                         <div className="w-full h-64 overflow-hidden rounded-lg">
                           <img
-                            src={ workshop.ImageUrl}
+                            src={workshop.ImageUrl}
                             alt={workshop.Title}
                             className="w-full h-full object-cover"
                           />
