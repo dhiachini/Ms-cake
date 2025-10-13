@@ -103,7 +103,7 @@ function PastryTable({
                 <td className="px-4 py-2">
                   <button
                     onClick={() => onEdit(pastry._id)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2"
                   >
                     Modifier
                   </button>
